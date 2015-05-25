@@ -1,0 +1,25 @@
+{
+    "manifest_version": 2,
+    "name": "Assist-waifu2x",
+    "description": "",
+    "version": "0.0.1",
+    "permissions": [
+      "*://*/*",
+      "chrome://favicon/"
+    ],
+    "content_scripts": [
+      {
+        "matches": ["*://*/*"],
+        "js": ["build/js/vendors/lib.min.js", "build/js/app.js"],
+        "css": ["bower_components/bootstrap/dist/css/bootstrap.min.css", "build/css/app.css"],
+        "run_at": "document_end"
+      }
+    ],
+    "web_accessible_resources": [
+      "bower_components/jquery/dist/jquery.min.map"
+    ],
+    "icons": {
+       "128": "build/images/icon128.png",
+       "48": "build/images/icon48.png"
+    }
+}

@@ -1,0 +1,8 @@
+manifest-dep.json
+temp
+node_modules
+bower_components
+test/*
+package/*
+npm-debug*
+waifu2x_test.js
