@@ -5,15 +5,13 @@
     "version": "0.0.1",
     "permissions": [
       "http://*/*",
-      // "https://*/*",
+      "https://*/*",
       "chrome://favicon/"
     ],
     "content_scripts": [
       {
         "matches": ["*://*/*"],
         "js": ["bower_components/jquery/dist/jquery.js", "bower_components/alertify.js/lib/alertify.min.js", "bower_components/file-saver-js/FileSaver.min.js", "build/js/app.js"],
-        // "js": ["build/js/vendors/lib.min.js", "build/js/app.js"],
-        // "css": ["bower_components/bootstrap/dist/css/bootstrap.min.css", "build/css/app.css"],
         "css": ["bower_components/alertify.js/themes/alertify.core.css", "bower_components/alertify.js/themes/alertify.default.css", "build/css/app.css"],
         "run_at": "document_start"
       }

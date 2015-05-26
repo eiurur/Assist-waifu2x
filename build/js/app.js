@@ -82,7 +82,11 @@ Tumblr = (function() {
 })();
 
 (function() {
-  var cloneImage, convert, create, deleteWaifu2xElement, download, handleSend2Waifu2x, handleWaifuWrapperOverlay, post2CorsServer, post2Waifu2x, saveBlobImage, saveImage;
+
+  /*
+  Conver, Request, Download
+   */
+  var cloneImage, convert, create, deleteWaifu2xElement, download, handleSend2Waifu2x, handleWaifuWrapperOverlay, post2CorsServer, saveBlobImage;
   convert = {
     base64toBlob: function(_base64) {
       var arr, blob, data, i, mime, tmp;
@@ -113,17 +117,9 @@ Tumblr = (function() {
       return ab;
     }
   };
-  saveImage = function(data) {
-    var blob, filename;
-    console.log(data);
-    blob = convert.base64toBlob(data.base64Data);
-    filename = (Date.now()) + ".png";
-    return saveAs(blob, filename);
-  };
   saveBlobImage = function(data) {
     var arrayBuffer, blob, filename;
     console.log(data);
-    console.log(data.body);
     arrayBuffer = convert.toArrayBuffer(data.body.data);
     blob = new Blob([arrayBuffer], {
       type: data.type
@@ -131,6 +127,69 @@ Tumblr = (function() {
     filename = (Date.now()) + ".png";
     return saveAs(blob, filename);
   };
+  download = function(blob, filename) {
+    var a, e, objectURL;
+    objectURL = (window.URL || window.webkitURL).createObjectURL(blob);
+    a = document.createElement('a');
+    e = document.createEvent('MouseEvent');
+    a.download = filename;
+    a.href = objectURL;
+    e.initEvent('click', true, true, window, 1, 0, 0, 0, 0, false, false, false, false, 0, null);
+    a.dispatchEvent(e);
+  };
+  post2CorsServer = function(params) {
+    console.log(params);
+    alertify.log("変換中です。 しばらくお待ちください。");
+    return $.ajax({
+      type: "POST",
+      url: "https://renge.herokuapp.com/api/downloadFromURL",
+      data: params,
+      headers: {
+        "Access-Control-Allow-Origin": "*"
+      }
+    }).done(function(data) {
+      if (data.error) {
+        console.log('Error Code = ', data.error.status);
+        console.log('Error text = ', data.error.text);
+        console.log('data.body.url = ', data.body.url);
+        alertify.error("変換に失敗しました。<br>ErrorCode: " + data.error.status + ".<br>ErrorText: " + data.error.text + ".<br>画像URL: " + data.body.url);
+        return;
+      }
+      console.log(data);
+      saveBlobImage({
+        body: data.body,
+        type: data.type
+      });
+      alertify.success("変換に成功しました。");
+      return console.log('done');
+    }).fail(function(jqXHR, textStatus) {
+      console.log('jqXHR = ', jqXHR);
+      console.log(textStatus);
+      alertify.error("変換に失敗しました。");
+      return console.log('fail');
+    });
+  };
+
+  /*
+  DOMやイベントハンドラ
+   */
+
+  /*
+    元のDOM
+    <img src="/priv/57e5027720a6d08b4212d0d7cce876182c7ffe14/1432661228/4751520" data-watch_url="http://seiga.nicovideo.jp/seiga/im4751520">
+  
+    hoverした後のDOM
+    <span class="waifu2x__wrapper">
+      <img src="/priv/57e5027720a6d08b4212d0d7cce876182c7ffe14/1432661228/4751520" data-watch_url="http://seiga.nicovideo.jp/seiga/im4751520">
+      <div class="waifu2x__wrapper-overlay">
+        <div class="btn-group waifu2x__button__wrapper" role="group">
+          <button type="button" class="btn btn-default waifu2x__button" value="0">x1</button>
+          <button type="button" class="btn btn-default waifu2x__button" value="1">x1.6</button>
+          <button type="button" class="btn btn-default waifu2x__button" value="2">x2</button>
+        </div>
+      </div>
+    </span>
+   */
   create = {
     waifu2x__wrapper: function(elem) {
       var html;
@@ -165,102 +224,23 @@ Tumblr = (function() {
       return deleteWaifu2xElement();
     });
   };
-  download = function(blob, filename) {
-    var a, e, objectURL;
-    objectURL = (window.URL || window.webkitURL).createObjectURL(blob);
-    a = document.createElement('a');
-    e = document.createEvent('MouseEvent');
-    a.download = filename;
-    a.href = objectURL;
-    e.initEvent('click', true, true, window, 1, 0, 0, 0, 0, false, false, false, false, 0, null);
-    a.dispatchEvent(e);
-  };
-  post2CorsServer = function(params) {
-    console.log(params);
-    alertify.log("変換中です。\nしばらくお待ちください。");
-    return $.ajax({
-      type: "POST",
-      url: "http://127.0.0.1:3000/api/downloadFromURL",
-      data: params,
-      headers: {
-        "Access-Control-Allow-Origin": "*"
-      }
-    }).done(function(data) {
-      console.log(data);
-      saveBlobImage({
-        body: data.body,
-        type: data.type
-      });
-      alertify.success("変換に成功しました。");
-      return console.log('done');
-    }).fail(function(jqXHR, textStatus) {
-      console.log(jqXHR);
-      console.log(textStatus);
-      alertify.error("変換に失敗しました。");
-      return console.log('fail');
-    });
-  };
-  post2Waifu2x = function(url, params) {
-    console.log(url);
-    console.log(params);
-    $.ajax({
-      type: 'POST',
-      url: url,
-      data: params,
-      headers: {
-        "Access-Control-Allow-Origin": "*"
-      }
-    }).done(function(response, status, xhr) {
-      var URL, a, blob, disposition, downloadUrl, filename, filenameRegex, matches, type;
-      filename = Date.now();
-      disposition = xhr.getResponseHeader('Content-Disposition');
-      if (disposition && disposition.indexOf('attachment') !== -1) {
-        filenameRegex = /filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/;
-        matches = filenameRegex.exec(disposition);
-        if (matches !== null && matches[1]) {
-          filename = matches[1].replace(/['"]/g, '');
-        }
-      }
-      type = xhr.getResponseHeader('Content-Type');
-      blob = new Blob([response], {
-        type: type
-      });
-      if (typeof window.navigator.msSaveBlob !== 'undefined') {
-        window.navigator.msSaveBlob(blob, filename);
-      } else {
-        URL = window.URL || window.webkitURL;
-        downloadUrl = URL.createObjectURL(blob);
-        if (filename) {
-          a = document.createElement('a');
-          if (typeof a.download === 'undefined') {
-
-          } else {
-            a.href = downloadUrl;
-            a.download = filename;
-            document.body.appendChild(a);
-            a.click();
-          }
-        }
-        setTimeout((function() {
-          URL.revokeObjectURL(downloadUrl);
-        }), 100);
-      }
-    }).fail(function(response, status, xhr) {
-      console.log(response);
-      console.log(status);
-      return console.log(xhr);
-    });
-    return false;
-  };
-  handleSend2Waifu2x = function(elem) {
+  $(document).on('mouseenter', 'img', function() {
+    if ($(this).parent('.waifu2x__wrapper').length) {
+      console.log($(this).parent('.waifu2x__wrapper'));
+      return;
+    }
+    create.waifu2x__wrapper(this);
+    create['waifu2x__wrapper-overlay'](this);
+    create.button(this);
+    return handleSend2Waifu2x(this);
+  });
+  return handleSend2Waifu2x = function(elem) {
     console.log('aaa');
     return $(elem).next().find('.waifu2x__button').each(function() {
-      console.log('asdasd');
       $(this).on({
         'click': function() {
           var scale, src;
           src = $(this).parent().parent().prev('img').attr('src');
-          console.log(src);
           scale = $(this).val();
           post2CorsServer({
             'url': src,
@@ -272,16 +252,4 @@ Tumblr = (function() {
       });
     });
   };
-  return $(document).on('mouseenter', 'img', function() {
-    console.log('before in');
-    if ($(this).parent('.waifu2x__wrapper').length) {
-      console.log($(this).parent('.waifu2x__wrapper'));
-      return;
-    }
-    console.log('after in');
-    create.waifu2x__wrapper(this);
-    create['waifu2x__wrapper-overlay'](this);
-    create.button(this);
-    return handleSend2Waifu2x(this);
-  });
 })();
