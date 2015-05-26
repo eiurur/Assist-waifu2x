@@ -12,6 +12,7 @@ do ->
         i++
       blob = new Blob([ arr ], type: mime)
       Blob
+
     toArrayBuffer: (buffer) ->
       ab = new ArrayBuffer(buffer.length)
       view = new Uint8Array(ab)
@@ -40,7 +41,7 @@ do ->
   # TODO: 関数化すべきものが違う。
   create =
     waifu2x__wrapper: (elem) ->
-      html = '<div class="waifu2x__wrapper"/>'
+      html = '<span class="waifu2x__wrapper"/>'
       $(elem).wrap html
 
     # elem = waifu2x_wrapper
@@ -72,11 +73,6 @@ do ->
     console.log elem
     $(elem).clone().wrap('.waifu2x__wrapper')
 
-  # deleteButtons = ->
-  #   # $('.waifu2x__wrapper').remove()
-  #   $('.waifu2x__button__wrapper').remove()
-
-
   deleteWaifu2xElement = ->
     $('.waifu2x__button__wrapper').remove()
     $('.waifu2x__wrapper-overlay').remove()
@@ -107,19 +103,26 @@ do ->
 
   post2CorsServer = (params) ->
     console.log params
+    alertify.log "変換中です。\nしばらくお待ちください。"
     $.ajax
       type: "POST"
       # url: "http://127.0.0.1:3000/api/download"
       url: "http://127.0.0.1:3000/api/downloadFromURL"
+      # url: "https://renge.herokuapp.com/api/downloadFromURL"
       data: params
       headers: "Access-Control-Allow-Origin": "*"
     .done (data) ->
       console.log data
       saveBlobImage body: data.body, type: data.type
+      alertify.success "変換に成功しました。"
+      console.log 'done'
 
     .fail (jqXHR, textStatus) ->
       console.log jqXHR
       console.log textStatus
+      alertify.error "変換に失敗しました。"
+      console.log 'fail'
+
 
 
   post2Waifu2x = (url, params) ->
@@ -182,7 +185,10 @@ do ->
 
         # ボタンセットをafterで挿入してるから、prev
         src = $(this).parent().parent().prev('img').attr('src')
-        # console.log src
+        console.log src
+        # srcReplacedHttp = src.replace 'https:', ''
+        # console.log srcReplacedHttp
+
         scale = $(this).val()
         # console.log scale
 
@@ -205,20 +211,11 @@ do ->
         #     'url': src
         #     'noise': 1
         #     'scale': scale - 0
-        #   dataType: "binary"
         #   headers:
-        #     # "Accept-Encoding": "deflate"
         #     "Access-Control-Allow-Origin": "*"
-        #     # 'Content-Type': 'multipart/form-data'
         # .done (data) ->
-        #   # alert data
         #   console.log data
-        #   console.log data.responseText
-        #   # blob = new Blob([data])
-
-
-        #   download new Blob([data]), 'a.png'
-
+        #   saveBlobImage body: data.body, type: data.type
         # .fail (jqXHR, textStatus) ->
         #   console.log jqXHR
 

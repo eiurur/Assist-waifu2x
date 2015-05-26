@@ -134,7 +134,7 @@ Tumblr = (function() {
   create = {
     waifu2x__wrapper: function(elem) {
       var html;
-      html = '<div class="waifu2x__wrapper"/>';
+      html = '<span class="waifu2x__wrapper"/>';
       return $(elem).wrap(html);
     },
     'waifu2x__wrapper-overlay': function(elem) {
@@ -177,6 +177,7 @@ Tumblr = (function() {
   };
   post2CorsServer = function(params) {
     console.log(params);
+    alertify.log("変換中です。\nしばらくお待ちください。");
     return $.ajax({
       type: "POST",
       url: "http://127.0.0.1:3000/api/downloadFromURL",
@@ -186,13 +187,17 @@ Tumblr = (function() {
       }
     }).done(function(data) {
       console.log(data);
-      return saveBlobImage({
+      saveBlobImage({
         body: data.body,
         type: data.type
       });
+      alertify.success("変換に成功しました。");
+      return console.log('done');
     }).fail(function(jqXHR, textStatus) {
       console.log(jqXHR);
-      return console.log(textStatus);
+      console.log(textStatus);
+      alertify.error("変換に失敗しました。");
+      return console.log('fail');
     });
   };
   post2Waifu2x = function(url, params) {
@@ -255,6 +260,7 @@ Tumblr = (function() {
         'click': function() {
           var scale, src;
           src = $(this).parent().parent().prev('img').attr('src');
+          console.log(src);
           scale = $(this).val();
           post2CorsServer({
             'url': src,
