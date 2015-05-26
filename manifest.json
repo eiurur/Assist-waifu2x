@@ -10,7 +10,8 @@
     "content_scripts": [
       {
         "matches": ["*://*/*"],
-        "js": ["build/js/vendors/lib.min.js", "build/js/app.js"],
+        "js": ["bower_components/jquery/dist/jquery.js", "bower_components/file-saver-js/FileSaver.min.js", "build/js/app.js"],
+        // "js": ["build/js/vendors/lib.min.js", "build/js/app.js"],
         "css": ["bower_components/bootstrap/dist/css/bootstrap.min.css", "build/css/app.css"],
         "run_at": "document_end"
       }

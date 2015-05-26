@@ -82,7 +82,55 @@ Tumblr = (function() {
 })();
 
 (function() {
-  var cloneImage, create, deleteWaifu2xElement, handleSend2Waifu2x, handleWaifuWrapperOverlay;
+  var cloneImage, convert, create, deleteWaifu2xElement, download, handleSend2Waifu2x, handleWaifuWrapperOverlay, post2CorsServer, post2Waifu2x, saveBlobImage, saveImage;
+  convert = {
+    base64toBlob: function(_base64) {
+      var arr, blob, data, i, mime, tmp;
+      i = void 0;
+      tmp = _base64.split(',');
+      data = atob(tmp[1]);
+      mime = tmp[0].split(':')[1].split(';')[0];
+      arr = new Uint8Array(data.length);
+      i = 0;
+      while (i < data.length) {
+        arr[i] = data.charCodeAt(i);
+        i++;
+      }
+      blob = new Blob([arr], {
+        type: mime
+      });
+      return Blob;
+    },
+    toArrayBuffer: function(buffer) {
+      var ab, i, view;
+      ab = new ArrayBuffer(buffer.length);
+      view = new Uint8Array(ab);
+      i = 0;
+      while (i < buffer.length) {
+        view[i] = buffer[i];
+        ++i;
+      }
+      return ab;
+    }
+  };
+  saveImage = function(data) {
+    var blob, filename;
+    console.log(data);
+    blob = convert.base64toBlob(data.base64Data);
+    filename = (Date.now()) + ".png";
+    return saveAs(blob, filename);
+  };
+  saveBlobImage = function(data) {
+    var arrayBuffer, blob, filename;
+    console.log(data);
+    console.log(data.body);
+    arrayBuffer = convert.toArrayBuffer(data.body.data);
+    blob = new Blob([arrayBuffer], {
+      type: data.type
+    });
+    filename = (Date.now()) + ".png";
+    return saveAs(blob, filename);
+  };
   create = {
     waifu2x__wrapper: function(elem) {
       var html;
@@ -117,6 +165,88 @@ Tumblr = (function() {
       return deleteWaifu2xElement();
     });
   };
+  download = function(blob, filename) {
+    var a, e, objectURL;
+    objectURL = (window.URL || window.webkitURL).createObjectURL(blob);
+    a = document.createElement('a');
+    e = document.createEvent('MouseEvent');
+    a.download = filename;
+    a.href = objectURL;
+    e.initEvent('click', true, true, window, 1, 0, 0, 0, 0, false, false, false, false, 0, null);
+    a.dispatchEvent(e);
+  };
+  post2CorsServer = function(params) {
+    console.log(params);
+    return $.ajax({
+      type: "POST",
+      url: "http://127.0.0.1:3000/api/downloadFromURL",
+      data: params,
+      headers: {
+        "Access-Control-Allow-Origin": "*"
+      }
+    }).done(function(data) {
+      console.log(data);
+      return saveBlobImage({
+        body: data.body,
+        type: data.type
+      });
+    }).fail(function(jqXHR, textStatus) {
+      console.log(jqXHR);
+      return console.log(textStatus);
+    });
+  };
+  post2Waifu2x = function(url, params) {
+    console.log(url);
+    console.log(params);
+    $.ajax({
+      type: 'POST',
+      url: url,
+      data: params,
+      headers: {
+        "Access-Control-Allow-Origin": "*"
+      }
+    }).done(function(response, status, xhr) {
+      var URL, a, blob, disposition, downloadUrl, filename, filenameRegex, matches, type;
+      filename = Date.now();
+      disposition = xhr.getResponseHeader('Content-Disposition');
+      if (disposition && disposition.indexOf('attachment') !== -1) {
+        filenameRegex = /filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/;
+        matches = filenameRegex.exec(disposition);
+        if (matches !== null && matches[1]) {
+          filename = matches[1].replace(/['"]/g, '');
+        }
+      }
+      type = xhr.getResponseHeader('Content-Type');
+      blob = new Blob([response], {
+        type: type
+      });
+      if (typeof window.navigator.msSaveBlob !== 'undefined') {
+        window.navigator.msSaveBlob(blob, filename);
+      } else {
+        URL = window.URL || window.webkitURL;
+        downloadUrl = URL.createObjectURL(blob);
+        if (filename) {
+          a = document.createElement('a');
+          if (typeof a.download === 'undefined') {
+
+          } else {
+            a.href = downloadUrl;
+            a.download = filename;
+            document.body.appendChild(a);
+            a.click();
+          }
+        }
+        setTimeout((function() {
+          URL.revokeObjectURL(downloadUrl);
+        }), 100);
+      }
+    }).fail(function(response, status, xhr) {
+      console.log(response);
+      console.log(status);
+      return console.log(xhr);
+    });
+    return false;
+  };
   handleSend2Waifu2x = function(elem) {
     console.log('aaa');
     return $(elem).next().find('.waifu2x__button').each(function() {
@@ -125,22 +255,11 @@ Tumblr = (function() {
         'click': function() {
           var scale, src;
           src = $(this).parent().parent().prev('img').attr('src');
-          console.log(src);
           scale = $(this).val();
-          console.log(scale);
-          $.ajax({
-            type: "POST",
-            url: "http://waifu2x.udp.jp/api",
-            data: {
-              'url': src,
-              'noise': 1,
-              'scale': scale
-            },
-            headers: {
-              "Access-Control-Allow-Origin": "*"
-            }
-          }).done(function(data) {
-            return console.log(data);
+          post2CorsServer({
+            'url': src,
+            'noise': 1,
+            'scale': scale - 0
           });
           return false;
         }
