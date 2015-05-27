@@ -29,8 +29,8 @@ do ->
   saveBlobImage = (data) ->
     console.log data
     arrayBuffer = convert.toArrayBuffer data.body.data
-    blob = new Blob([arrayBuffer], type: data.type)
-    filename = "#{Date.now()}.png"
+    blob        = new Blob([arrayBuffer], type: data.type)
+    filename    = "#{Date.now()}.png"
     saveAs blob, filename
 
   # 後で消す
