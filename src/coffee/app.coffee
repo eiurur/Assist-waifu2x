@@ -1,7 +1,7 @@
 do ->
 
   ###
-  Conver, Request, Download
+  Convert
   ###
   convert =
     base64toBlob: (_base64) ->
@@ -26,32 +26,25 @@ do ->
         ++i
       ab
 
+
+  ###
+  Download
+  ###
   saveBlobImage = (data) ->
-    console.log data
     arrayBuffer = convert.toArrayBuffer data.body.data
     blob        = new Blob([arrayBuffer], type: data.type)
     filename    = "#{Date.now()}.png"
     saveAs blob, filename
 
-  # 後で消す
-  download = (blob, filename) ->
-    objectURL = (window.URL or window.webkitURL).createObjectURL(blob)
-    a = document.createElement('a')
-    e = document.createEvent('MouseEvent')
 
-    #a要素のdownload属性にファイル名を設定
-    a.download = filename
-    a.href = objectURL
-
-    #clickイベントを着火
-    e.initEvent 'click', true, true, window, 1, 0, 0, 0, 0, false, false, false, false, 0, null
-    a.dispatchEvent e
-    return
-
-
+  ###
+  Request
+  ###
   post2CorsServer = (params) ->
     console.log params
+
     alertify.log "変換中です。 しばらくお待ちください。"
+
     $.ajax
       type: "POST"
       # url: "http://127.0.0.1:3000/api/download"
@@ -81,23 +74,21 @@ do ->
 
   ###
   DOMやイベントハンドラ
-  ###
 
-  ###
-    元のDOM
+  元のDOM
+  <img src="/priv/57e5027720a6d08b4212d0d7cce876182c7ffe14/1432661228/4751520" data-watch_url="http://seiga.nicovideo.jp/seiga/im4751520">
+
+  hoverした後のDOM
+  <span class="waifu2x__wrapper">
     <img src="/priv/57e5027720a6d08b4212d0d7cce876182c7ffe14/1432661228/4751520" data-watch_url="http://seiga.nicovideo.jp/seiga/im4751520">
-
-    hoverした後のDOM
-    <span class="waifu2x__wrapper">
-      <img src="/priv/57e5027720a6d08b4212d0d7cce876182c7ffe14/1432661228/4751520" data-watch_url="http://seiga.nicovideo.jp/seiga/im4751520">
-      <div class="waifu2x__wrapper-overlay">
-        <div class="btn-group waifu2x__button__wrapper" role="group">
-          <button type="button" class="btn btn-default waifu2x__button" value="0">x1</button>
-          <button type="button" class="btn btn-default waifu2x__button" value="1">x1.6</button>
-          <button type="button" class="btn btn-default waifu2x__button" value="2">x2</button>
-        </div>
+    <div class="waifu2x__wrapper-overlay">
+      <div class="btn-group waifu2x__button__wrapper" role="group">
+        <button type="button" class="btn btn-default waifu2x__button" value="0">x1</button>
+        <button type="button" class="btn btn-default waifu2x__button" value="1">x1.6</button>
+        <button type="button" class="btn btn-default waifu2x__button" value="2">x2</button>
       </div>
-    </span>
+    </div>
+  </span>
   ###
 
   # TODO: 関数化すべきものが違う。
@@ -117,8 +108,7 @@ do ->
     # elem = waifu2x__wrapper-overlay
     button: (elem) ->
       elem2 = $(elem).next()
-
-      html =
+      html  =
         '''
         <div class="btn-group waifu2x__button__wrapper" role="group">
           <button type="button" class="btn btn-default waifu2x__button" value="0">x1</button>
@@ -128,23 +118,20 @@ do ->
         '''
       $(elem2).append html
 
-  # 後で消す
-  cloneImage = (elem) ->
-    console.log elem
-    $(elem).clone().wrap('.waifu2x__wrapper')
+  handleSend2Waifu2x = (elem) ->
+    $(elem).next().find('.waifu2x__button').each ->
+      $(this).on 'click': ->
 
-  deleteWaifu2xElement = ->
-    $('.waifu2x__button__wrapper').remove()
-    $('.waifu2x__wrapper-overlay').remove()
-    $('.waifu2x__wrapper').remove()
+        # ボタンセットをafterで挿入してるから、prev
+        src   = $(this).parent().parent().prev('img').attr('src')
+        scale = $(this).val()
 
-  # 後で消す
-  # elem = img
-  handleWaifuWrapperOverlay = (elem) ->
-    $(document).on 'mouseleave', '.waifu2x__wrapper', ->
-      cloneImage(elem)
-      deleteWaifu2xElement()
+        post2CorsServer
+          'url': src
+          'noise': 1
+          'scale': scale - 0
 
+        return false
 
   # imgの上にマウスが置かれたら'waifu2x'にリクエストを投げるためのボタンと、位置を調整するための要素を生成
   $(document).on 'mouseenter', 'img', ->
@@ -159,46 +146,3 @@ do ->
     create.button this
 
     handleSend2Waifu2x this
-
-
-  handleSend2Waifu2x = (elem) ->
-    console.log 'aaa'
-
-    $(elem).next().find('.waifu2x__button').each ->
-      $(this).on 'click': ->
-
-        # ボタンセットをafterで挿入してるから、prev
-        src   = $(this).parent().parent().prev('img').attr('src')
-        scale = $(this).val()
-
-        post2CorsServer
-          'url': src
-          'noise': 1
-          'scale': scale - 0
-
-        # コードコピペしたけど400Errorでるやつ
-        # post2Waifu2x "http://waifu2x.udp.jp/api",
-        #   'url': src
-        #   'noise': 1
-        #   'scale': scale - 0
-
-        # もともと動いていたけどファイルがぶっ壊れているvwe
-        # $.ajax
-        #   type: "POST"
-        #   url: "http://waifu2x.udp.jp/api"
-        #   data:
-        #     'url': src
-        #     'noise': 1
-        #     'scale': scale - 0
-        #   headers:
-        #     "Access-Control-Allow-Origin": "*"
-        # .done (data) ->
-        #   console.log data
-        #   saveBlobImage body: data.body, type: data.type
-        # .fail (jqXHR, textStatus) ->
-        #   console.log jqXHR
-
-        #   console.log textStatus
-        #   download new Blob([jqXHR.responseText], type: 'image/png'), Date.now()
-        return false
-      return
