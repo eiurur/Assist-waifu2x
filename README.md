@@ -7,7 +7,7 @@ It is an extension to be used in conjunction with <a href="https://github.com/ei
 
 ## Demo
 
-![Demo](https://github.com/eiurur/pigree/raw/master/demo.gif)
+![Demo](https://github.com/eiurur/Assist-waifu2x/raw/master/demo.gif)
 
 ## Status
 
