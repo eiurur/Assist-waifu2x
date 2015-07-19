@@ -53,18 +53,19 @@ do ->
       headers: "Access-Control-Allow-Origin": "*"
     .done (data) ->
       if data.error
-        # alertify.error "変換に失敗しました。<br>ErrorCode: #{data.error.status}.<br>ErrorText: #{data.error.text}.<br>画像URL: #{data.body.url}"
+        chrome.runtime.sendMessage data: data, uid: qs.uid, status: 'failure', (response) -> console.log 'fail'
+
         return
 
       console.log data
       saveBlobImage body: data.body, type: data.type
-      chrome.runtime.sendMessage uid: qs.uid, status: 'success', (response) -> console.log 'fail'
+      chrome.runtime.sendMessage data: data, uid: qs.uid, status: 'success', (response) -> console.log 'fail'
       console.log 'done'
 
     .fail (jqXHR, textStatus) ->
       console.log 'jqXHR = ', jqXHR
       console.log textStatus
-      chrome.runtime.sendMessage uid: qs.uid, status: 'fail', (response) -> console.log 'fail'
+      chrome.runtime.sendMessage uid: qs.uid, status: 'failure', (response) -> console.log 'fail'
       console.log 'fail'
 
 

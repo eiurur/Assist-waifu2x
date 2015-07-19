@@ -62,6 +62,13 @@
       }
     }).done(function(data) {
       if (data.error) {
+        chrome.runtime.sendMessage({
+          data: data,
+          uid: qs.uid,
+          status: 'failure'
+        }, function(response) {
+          return console.log('fail');
+        });
         return;
       }
       console.log(data);
@@ -70,6 +77,7 @@
         type: data.type
       });
       chrome.runtime.sendMessage({
+        data: data,
         uid: qs.uid,
         status: 'success'
       }, function(response) {
@@ -81,7 +89,7 @@
       console.log(textStatus);
       chrome.runtime.sendMessage({
         uid: qs.uid,
-        status: 'fail'
+        status: 'failure'
       }, function(response) {
         return console.log('fail');
       });

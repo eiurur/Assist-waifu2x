@@ -2,7 +2,6 @@ $(function() {
   var clickHandler;
   clickHandler = function(info, tab) {
     var uid;
-    console.log('Context Menu =====> ');
     uid = Date.now();
     return chrome.tabs.create({
       url: "../build/views/views/asyncpost.html?uid=" + uid + "&srcUrl=" + info.srcUrl,
@@ -21,6 +20,16 @@ $(function() {
     return chrome.tabs.getAllInWindow(null, function(tabs) {
       return tabs.forEach(function(tab) {
         if (request.status === 'success') {
+          if (tab.url.indexOf(request.uid) !== -1) {
+            setTimeout(function() {
+              return chrome.tabs.remove(tab.id, function() {
+                return console.log('tab remove');
+              });
+            }, 1000);
+          }
+        }
+        if (request.status === 'failure') {
+          console.log(request);
           if (tab.url.indexOf(request.uid) !== -1) {
             return setTimeout(function() {
               return chrome.tabs.remove(tab.id, function() {
