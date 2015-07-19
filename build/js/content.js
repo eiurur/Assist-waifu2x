@@ -3,7 +3,7 @@
   /*
   Convert
    */
-  var convert, post2CorsServer, saveBlobImage, url;
+  var convert, getUrlVars, post2CorsServer, qs, saveBlobImage;
   convert = {
     base64toBlob: function(_base64) {
       var arr, blob, data, i, mime, tmp;
@@ -55,7 +55,7 @@
     console.log(params);
     return $.ajax({
       type: "POST",
-      url: "https://localhost:3000/api/downloadFromURL",
+      url: "https://tk2-207-13331.vs.sakura.ne.jp:3000/api/downloadFromURL",
       data: params,
       headers: {
         "Access-Control-Allow-Origin": "*"
@@ -70,6 +70,7 @@
         type: data.type
       });
       chrome.runtime.sendMessage({
+        uid: qs.uid,
         status: 'success'
       }, function(response) {
         return console.log('fail');
@@ -79,6 +80,7 @@
       console.log('jqXHR = ', jqXHR);
       console.log(textStatus);
       chrome.runtime.sendMessage({
+        uid: qs.uid,
         status: 'fail'
       }, function(response) {
         return console.log('fail');
@@ -86,10 +88,29 @@
       return console.log('fail');
     });
   };
-  url = location.search.substr(1).split('=');
-  console.log(url);
+  getUrlVars = function() {
+    var i, key, keySearch, param, val, vars;
+    vars = {};
+    param = location.search.substring(1).split('&');
+    i = 0;
+    while (i < param.length) {
+      keySearch = param[i].search(RegExp('='));
+      key = '';
+      if (keySearch !== -1) {
+        key = param[i].slice(0, keySearch);
+      }
+      val = param[i].slice(param[i].indexOf('=', 0) + 1);
+      if (key !== '') {
+        vars[key] = decodeURI(val);
+      }
+      i++;
+    }
+    return vars;
+  };
+  qs = getUrlVars();
+  console.log(qs);
   return post2CorsServer({
-    'url': url[1],
+    'url': qs.srcUrl,
     'noise': 2,
     'scale': 2
   });

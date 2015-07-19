@@ -37,8 +37,6 @@ do ->
     saveAs blob, filename
 
 
-
-
   ###
   Request
   ###
@@ -49,8 +47,8 @@ do ->
 
     $.ajax
       type: "POST"
-      url: "https://localhost:3000/api/downloadFromURL"
-      # url: "https://renge.herokuapp.com/api/downloadFromURL"
+      # url: "https://localhost:3000/api/downloadFromURL"
+      url: "https://tk2-207-13331.vs.sakura.ne.jp:3000/api/downloadFromURL"
       data: params
       headers: "Access-Control-Allow-Origin": "*"
     .done (data) ->
@@ -60,20 +58,36 @@ do ->
 
       console.log data
       saveBlobImage body: data.body, type: data.type
-      chrome.runtime.sendMessage status: 'success', (response) -> console.log 'fail'
+      chrome.runtime.sendMessage uid: qs.uid, status: 'success', (response) -> console.log 'fail'
       console.log 'done'
 
     .fail (jqXHR, textStatus) ->
       console.log 'jqXHR = ', jqXHR
       console.log textStatus
-      chrome.runtime.sendMessage status: 'fail', (response) -> console.log 'fail'
+      chrome.runtime.sendMessage uid: qs.uid, status: 'fail', (response) -> console.log 'fail'
       console.log 'fail'
 
 
-  url = location.search.substr(1).split '='
-  console.log url
+  getUrlVars = ->
+    vars = {}
+    param = location.search.substring(1).split('&')
+    i = 0
+    while i < param.length
+      keySearch = param[i].search(RegExp('='))
+      key = ''
+      if keySearch != -1
+        key = param[i].slice(0, keySearch)
+      val = param[i].slice(param[i].indexOf('=', 0) + 1)
+      if key != ''
+        vars[key] = decodeURI(val)
+      i++
+    vars
+
+
+  qs = getUrlVars()
+  console.log qs
   post2CorsServer
-    'url': url[1]
+    'url': qs.srcUrl
     'noise': 2
     'scale': 2
     # 'scale': scale - 0
