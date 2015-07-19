@@ -2,7 +2,7 @@
   "manifest_version": 2,
   "name": "Assist-waifu2x",
   "description": "Assist-waifu2x",
-  "version": "0.0.1",
+  "version": "0.3.0",
   "permissions": [
     "tabs",
     "storage",
@@ -27,7 +27,6 @@
   "web_accessible_resources": [
     "bower_components/jquery/dist/jquery.min.map"
   ],
-  "options_page": "build/views/views/options.html",
   "icons": {
     "16": "build/images/icon19.png",
     "48": "build/images/icon48.png",
