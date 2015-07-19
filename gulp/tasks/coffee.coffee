@@ -9,8 +9,9 @@ gulp.task 'coffee', ->
     .pipe $.coffeelint()
     .pipe $.coffeelint.reporter()
     .pipe $.coffee(bare: true)
-    .pipe $.concat('app.js')
+    # .pipe $.concat('app.js')
     .pipe gulp.dest config.dest
+    .pipe $.stripDebug()
     .pipe $.rename suffix: '.min'
     .pipe $.uglify mangle: false
     .pipe gulp.dest config.dest

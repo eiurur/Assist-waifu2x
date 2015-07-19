@@ -23,9 +23,9 @@ module.exports =
     dest: dest + "/js/"
 
 
-  # jade:
-  #   src: src + '/**/!(_)*.jade'
-  #   dest: dest + '/app/views/'
+  jade:
+    src: src + '/**/!(_)*.jade'
+    dest: dest + '/views'
 
   # jade_copy:
   #   src: src + app + "/views/**"
@@ -35,20 +35,40 @@ module.exports =
     src: src + "/images/**"
     dest: dest + '/images/'
 
-  # sass:
-  #   src: [src + "/sass/**//!(_)*"] # ファイル名の先頭がアンスコはビルド対象外にする
-  #   dest: dest + "/css/"
+  sass:
+    src: [src + "/sass/**//!(_)*"] # ファイル名の先頭がアンスコはビルド対象外にする
+    dest: dest + "/css/"
 
   bower_js:
     src: [
       'bower_components/jquery/dist/jquery.min.js'
       'bower_components/es6-promise/promise.min.js'
+      'bower_components/file-saver-js/FileSaver.min.js'
+      # 'bower_components/moment/moment.js'
+      'bower_components/alertify.js/lib/alertify.js'
     ]
     dest: dest + "/js/vendors/"
+
+  bower_css:
+    src: [
+      # 'bower_components/font-awesome/css/font-awesome.min.css'
+      # 'bower_components/bootstrap/dist/css/bootstrap.min.css'
+      'bower_components/alertify.js/themes/alertify.core.css'
+      'bower_components/alertify.js/themes/alertify.default.css'
+    ]
+    dest: dest + "/css/vendors/"
+
+  bower_font:
+    src: [
+      'bower_components/font-awesome/fonts/*'
+    ]
+    dest: dest + '/css/fonts/'
 
   clean:
     target: './build'
 
   watch:
     coffee: relativeSrcPath + "/coffee/*.coffee"
+    sass: relativeSrcPath + "/sass/*.scss"
+    jade: relativeSrcPath + "/views/**"
     images_copy: relativeSrcPath + "/images/**"
