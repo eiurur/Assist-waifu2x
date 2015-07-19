@@ -9,6 +9,10 @@ It is an extension to be used in conjunction with <a href="https://github.com/ei
 
 ![Demo](https://github.com/eiurur/Assist-waifu2x/raw/master/demo.gif)
 
+## Install
+
+<a href="https://chrome.google.com/webstore/detail/aopdgjkfalnfokhbgkemiajgfpefgjei/publish-accepted?hl=ja" target="_blank">Assist-waifu2x - Chrome WebStore</a>
+
 ## Status
 
 WIP
