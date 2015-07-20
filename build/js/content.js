@@ -55,7 +55,7 @@
     console.log(params);
     return $.ajax({
       type: "POST",
-      url: "https://tk2-207-13331.vs.sakura.ne.jp:3000/api/downloadFromURL",
+      url: "https://aw2x.eiurur.xyz/api/downloadFromURL",
       data: params,
       headers: {
         "Access-Control-Allow-Origin": "*"

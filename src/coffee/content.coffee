@@ -48,13 +48,13 @@ do ->
     $.ajax
       type: "POST"
       # url: "https://localhost:3000/api/downloadFromURL"
-      url: "https://tk2-207-13331.vs.sakura.ne.jp:3000/api/downloadFromURL"
+      # url: "https://tk2-207-13331.vs.sakura.ne.jp:3000/api/downloadFromURL"
+      url: "https://aw2x.eiurur.xyz/api/downloadFromURL"
       data: params
       headers: "Access-Control-Allow-Origin": "*"
     .done (data) ->
       if data.error
         chrome.runtime.sendMessage data: data, uid: qs.uid, status: 'failure', (response) -> console.log 'fail'
-
         return
 
       console.log data
