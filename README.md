@@ -19,4 +19,4 @@ WIP
 
 ## TODO
 
-- [ ] Setting option(noise, scale) on popup.html.
+- [x] Setting option(noise, scale) on popup.html.
