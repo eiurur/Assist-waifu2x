@@ -18,4 +18,3 @@ $ ->
     scale = $("input[type=radio][name=scale]:checked").val()
     item  = 'aw2x_scale': scale
     chrome.storage.sync.set item, -> console.log 'changed scale!!'
-
