@@ -5,38 +5,39 @@ html(lang="ja")
     link(rel="stylesheet", type="text/css", href="../../css/vendors/lib.min.css")
     link(rel="stylesheet", type="text/css", href="../../css/app.min.css")
     meta(name="viewport", content="width=device-width,initial-scale=1.0")
-  body(style="min-width:320px;")
+  body(style="min-width:360px;")
     .navbar.navbar-default.navbar-static-top
       .container
         .navbar-header
           a.navbar-brand(href="#") Assist-waifu2x
-        form.form-horizontal
-          .form-group
-            label.control-label.col-xs-3 ノイズ除去
-            .col-xs-9
-              label.radio-inline
-                input(type='radio', name='noise', value="0")
-                | なし
-              label.radio-inline
-                input(type='radio', name='noise', value="1")
-                | 弱
-              label.radio-inline
-                input(type='radio', name='noise', value="2")
-                | 強
+    .container
+      form.form-horizontal
+        .form-group
+          label.control-label.col-xs-4 ノイズ除去
+          .col-xs-8
+            label.radio-inline
+              input(type='radio', name='noise', value="0")
+              | なし
+            label.radio-inline
+              input(type='radio', name='noise', value="1")
+              | 弱
+            label.radio-inline
+              input(type='radio', name='noise', value="2")
+              | 強
 
-        form.form-horizontal
-          .form-group
-            label.control-label.col-xs-3 拡大
-            .col-xs-9
-              label.radio-inline
-                input(type='radio', name='scale', value="0")
-                | 1x
-              label.radio-inline
-                input(type='radio', name='scale', value="1")
-                | 1.6x
-              label.radio-inline
-                input(type='radio', name='scale', value="2", checked)
-                | 2x
+      form.form-horizontal
+        .form-group
+          label.control-label.col-xs-4 拡大
+          .col-xs-8
+            label.radio-inline
+              input(type='radio', name='scale', value="0")
+              | 1x
+            label.radio-inline
+              input(type='radio', name='scale', value="1")
+              | 1.6x
+            label.radio-inline
+              input(type='radio', name='scale', value="2", checked)
+              | 2x
 
     script(src='../../js/vendors/lib.js')
     script(src='../../js/popup.js')
