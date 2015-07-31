@@ -1,15 +1,10 @@
 $ ->
-  syncGet = (key) ->
-    return new Promise (resolve, reject) ->
-      chrome.storage.sync.get key, (item) -> resolve item.key
 
+  ###
+  Context Menu
+  ###
 
   clickHandler = (info, tab) ->
-    # Promise.all syncGet('aw2x_noise'), syncGet('aw2x_scale')
-    # .then (items) ->
-    #   console.log items
-    #   info.noise = items
-
     chrome.storage.sync.get "aw2x_noise", (item) ->
       info.noise = item.aw2x_noise
       chrome.storage.sync.get "aw2x_scale", (item) ->
@@ -25,29 +20,31 @@ $ ->
 
   chrome.contextMenus.onClicked.addListener(clickHandler)
 
+  ###
+
+  ###
+  notify = (params, callback) ->
+    opts =
+      title: params.title
+      message: params.message
+      type: 'basic'
+      iconUrl: '../build/images/icon128.png'
+    chrome.notifications.create opts, -> console.log 'notify'
+
   chrome.runtime.onMessage.addListener (request, sender, sendResponse) ->
     chrome.tabs.getAllInWindow null, (tabs) ->
       tabs.forEach (tab) ->
+        return if tab.url.indexOf(request.uid) is -1
+
         if request.status is 'success'
-          if tab.url.indexOf(request.uid) isnt -1
-            setTimeout ->
-              chrome.tabs.remove tab.id, -> console.log 'tab remove'
+          setTimeout ->
+            chrome.tabs.remove tab.id, -> console.log 'tab remove'
+            # SucessはNotificationしなくてもいいかな？
+            # notify title: 'Success', message: "#{request.uid}.png"
+          ,  1000
 
-              # TODO: Success Notification
-              # opts =
-              #   type: 'basic'
-              #   title: 'Success'
-              #   message: "#{request.uid}.png"
-              #   iconUrl: '../build/images/icon48.png'
-              # chrome.notifications.create 'success-notify', opts, -> console.log 'notify'
-            ,  1000
         if request.status is 'failure'
-          console.log request
-
-          if tab.url.indexOf(request.uid) isnt -1
-            setTimeout ->
-              chrome.tabs.remove tab.id, -> console.log 'tab remove'
-
-              # TODO: Failure Notification
-              # alertify.error "変換に失敗しました。<br>ErrorCode: #{request.data.error.status}.<br>ErrorText: #{request.data.error.text}.<br>画像URL: #{request.data.body.url}"
-            ,  1000
+          setTimeout ->
+            chrome.tabs.remove tab.id, -> console.log 'tab remove'
+            notify title: 'Failure', message: "#{request.uid}.png"
+          ,  1000

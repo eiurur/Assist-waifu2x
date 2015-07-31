@@ -1,12 +1,9 @@
 $(function() {
-  var clickHandler, syncGet;
-  syncGet = function(key) {
-    return new Promise(function(resolve, reject) {
-      return chrome.storage.sync.get(key, function(item) {
-        return resolve(item.key);
-      });
-    });
-  };
+
+  /*
+  Context Menu
+   */
+  var clickHandler, notify;
   clickHandler = function(info, tab) {
     return chrome.storage.sync.get("aw2x_noise", function(item) {
       info.noise = item.aw2x_noise;
@@ -29,27 +26,44 @@ $(function() {
     'id': 'image'
   });
   chrome.contextMenus.onClicked.addListener(clickHandler);
+
+  /*
+   */
+  notify = function(params, callback) {
+    var opts;
+    opts = {
+      title: params.title,
+      message: params.message,
+      type: 'basic',
+      iconUrl: '../build/images/icon128.png'
+    };
+    return chrome.notifications.create(opts, function() {
+      return console.log('notify');
+    });
+  };
   return chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
     return chrome.tabs.getAllInWindow(null, function(tabs) {
       return tabs.forEach(function(tab) {
+        if (tab.url.indexOf(request.uid) === -1) {
+          return;
+        }
         if (request.status === 'success') {
-          if (tab.url.indexOf(request.uid) !== -1) {
-            setTimeout(function() {
-              return chrome.tabs.remove(tab.id, function() {
-                return console.log('tab remove');
-              });
-            }, 1000);
-          }
+          setTimeout(function() {
+            return chrome.tabs.remove(tab.id, function() {
+              return console.log('tab remove');
+            });
+          }, 1000);
         }
         if (request.status === 'failure') {
-          console.log(request);
-          if (tab.url.indexOf(request.uid) !== -1) {
-            return setTimeout(function() {
-              return chrome.tabs.remove(tab.id, function() {
-                return console.log('tab remove');
-              });
-            }, 1000);
-          }
+          return setTimeout(function() {
+            chrome.tabs.remove(tab.id, function() {
+              return console.log('tab remove');
+            });
+            return notify({
+              title: 'Failure',
+              message: request.uid + ".png"
+            });
+          }, 1000);
         }
       });
     });
