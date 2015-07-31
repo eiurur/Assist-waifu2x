@@ -119,7 +119,7 @@
   console.log(qs);
   return post2CorsServer({
     'url': qs.srcUrl,
-    'noise': 2,
-    'scale': 2
+    'noise': qs.noise - 0,
+    'scale': qs.scale - 0
   });
 })();

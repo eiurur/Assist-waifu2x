@@ -47,8 +47,6 @@ do ->
 
     $.ajax
       type: "POST"
-      # url: "https://localhost:3000/api/downloadFromURL"
-      # url: "https://tk2-207-13331.vs.sakura.ne.jp:3000/api/downloadFromURL"
       url: "https://aw2x.eiurur.xyz/api/downloadFromURL"
       data: params
       headers: "Access-Control-Allow-Origin": "*"
@@ -89,6 +87,6 @@ do ->
   console.log qs
   post2CorsServer
     'url': qs.srcUrl
-    'noise': 2
-    'scale': 2
+    'noise': qs.noise - 0
+    'scale': qs.scale - 0
     # 'scale': scale - 0

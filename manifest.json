@@ -2,7 +2,7 @@
   "manifest_version": 2,
   "name": "Assist-waifu2x",
   "description": "Assist-waifu2x",
-  "version": "0.3.2",
+  "version": "0.3.3",
   "permissions": [
     "tabs",
     "storage",
@@ -15,7 +15,8 @@
         "19": "build/images/icon19.png",
         "38": "build/images/icon38.png"
      },
-     "default_title": "Assist-waifu2x"
+     "default_title": "Assist-waifu2x",
+     "default_popup": "build/views/views/popup.html"
   },
   "background": {
      "persistent": false,

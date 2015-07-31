@@ -1,9 +1,22 @@
 $ ->
+  syncGet = (key) ->
+    return new Promise (resolve, reject) ->
+      chrome.storage.sync.get key, (item) -> resolve item.key
+
 
   clickHandler = (info, tab) ->
-    uid = Date.now()
-    chrome.tabs.create url: "../build/views/views/asyncpost.html?uid=#{uid}&srcUrl=#{info.srcUrl}", 'active': false, (tab) ->
-      console.log 'AAA'
+    # Promise.all syncGet('aw2x_noise'), syncGet('aw2x_scale')
+    # .then (items) ->
+    #   console.log items
+    #   info.noise = items
+
+    chrome.storage.sync.get "aw2x_noise", (item) ->
+      info.noise = item.aw2x_noise
+      chrome.storage.sync.get "aw2x_scale", (item) ->
+        info.scale = item.aw2x_scale
+        uid = Date.now()
+        chrome.tabs.create url: "../build/views/views/asyncpost.html?uid=#{uid}&srcUrl=#{info.srcUrl}&noise=#{info.noise}&scale=#{info.scale}", 'active': false, (tab) ->
+          console.log 'AAA'
 
   chrome.contextMenus.create
     'title': 'image to waifu2x'

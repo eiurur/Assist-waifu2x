@@ -1,13 +1,26 @@
 $(function() {
-  var clickHandler;
+  var clickHandler, syncGet;
+  syncGet = function(key) {
+    return new Promise(function(resolve, reject) {
+      return chrome.storage.sync.get(key, function(item) {
+        return resolve(item.key);
+      });
+    });
+  };
   clickHandler = function(info, tab) {
-    var uid;
-    uid = Date.now();
-    return chrome.tabs.create({
-      url: "../build/views/views/asyncpost.html?uid=" + uid + "&srcUrl=" + info.srcUrl,
-      'active': false
-    }, function(tab) {
-      return console.log('AAA');
+    return chrome.storage.sync.get("aw2x_noise", function(item) {
+      info.noise = item.aw2x_noise;
+      return chrome.storage.sync.get("aw2x_scale", function(item) {
+        var uid;
+        info.scale = item.aw2x_scale;
+        uid = Date.now();
+        return chrome.tabs.create({
+          url: "../build/views/views/asyncpost.html?uid=" + uid + "&srcUrl=" + info.srcUrl + "&noise=" + info.noise + "&scale=" + info.scale,
+          'active': false
+        }, function(tab) {
+          return console.log('AAA');
+        });
+      });
     });
   };
   chrome.contextMenus.create({
