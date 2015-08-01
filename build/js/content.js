@@ -24,33 +24,39 @@
         });
         return;
       }
-      console.log(data);
       eiurur.utils.saveBlobImage({
         body: data.body,
         type: data.type
       });
-      chrome.runtime.sendMessage({
+      return chrome.runtime.sendMessage({
         data: data,
         uid: qs.uid,
         status: 'success'
       }, function(response) {
-        return console.log('fail');
+        return console.log('success');
       });
-      return console.log('done');
     }).fail(function(jqXHR, textStatus) {
       console.log('jqXHR = ', jqXHR);
       console.log(textStatus);
-      chrome.runtime.sendMessage({
+      return chrome.runtime.sendMessage({
         uid: qs.uid,
         status: 'failure'
       }, function(response) {
         return console.log('fail');
       });
-      return console.log('fail');
     });
   };
+
+  /*
+  Start!!
+   */
   qs = eiurur.utils.getUrlVars();
-  console.log(qs);
+  if (qs.noise === 'undefined') {
+    qs.noise = 2;
+  }
+  if (qs.scale === 'undefined') {
+    qs.scale = 2;
+  }
   return post2CorsServer({
     'url': qs.srcUrl,
     'noise': qs.noise - 0,

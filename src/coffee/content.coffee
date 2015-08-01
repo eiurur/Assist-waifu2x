@@ -6,8 +6,6 @@ do ->
   post2CorsServer = (params) ->
     console.log params
 
-    # alertify.log "変換中です。 しばらくお待ちください。"
-
     $.ajax
       type: "POST"
       url: "https://aw2x.eiurur.xyz/api/downloadFromURL"
@@ -18,19 +16,25 @@ do ->
         chrome.runtime.sendMessage data: data, uid: qs.uid, status: 'failure', (response) -> console.log 'fail'
         return
 
-      console.log data
       eiurur.utils.saveBlobImage body: data.body, type: data.type
-      chrome.runtime.sendMessage data: data, uid: qs.uid, status: 'success', (response) -> console.log 'fail'
-      console.log 'done'
+      chrome.runtime.sendMessage data: data, uid: qs.uid, status: 'success', (response) -> console.log 'success'
 
     .fail (jqXHR, textStatus) ->
       console.log 'jqXHR = ', jqXHR
       console.log textStatus
       chrome.runtime.sendMessage uid: qs.uid, status: 'failure', (response) -> console.log 'fail'
-      console.log 'fail'
 
+  ###
+  Start!!
+  ###
   qs = eiurur.utils.getUrlVars()
-  console.log qs
+
+  # インストールしたけど、popup.htmlで設定を変更していない場合
+  # noise、scaleともに"undefined"が渡され、結果的にpost2CorsServerにはNaNが渡されることになる
+  # それに対策
+  if qs.noise is 'undefined' then qs.noise = 2
+  if qs.scale is 'undefined' then qs.scale = 2
+
   post2CorsServer
     'url': qs.srcUrl
     'noise': qs.noise - 0
