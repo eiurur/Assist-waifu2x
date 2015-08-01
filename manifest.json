@@ -2,13 +2,12 @@
   "manifest_version": 2,
   "name": "Assist-waifu2x",
   "description": "Assist-waifu2x",
-  "version": "0.3.4",
+  "version": "0.3.5",
   "permissions": [
     "tabs",
     "storage",
     "contextMenus",
-    "notifications",
-    "chrome://favicon/"
+    "notifications"
   ],
   "browser_action": {
      "default_icon": {
@@ -27,7 +26,7 @@
     "bower_components/jquery/dist/jquery.min.map"
   ],
   "icons": {
-    "16": "build/images/icon19.png",
+    "16": "build/images/icon16.png",
     "48": "build/images/icon48.png",
     "128": "build/images/icon128.png"
   }
