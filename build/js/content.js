@@ -14,6 +14,7 @@
         "Access-Control-Allow-Origin": "*"
       }
     }).done(function(data) {
+      console.log('/post2CorsServer data =', data);
       if (data.error) {
         chrome.runtime.sendMessage({
           data: data,
@@ -37,7 +38,7 @@
       });
     }).fail(function(jqXHR, textStatus) {
       console.log('jqXHR = ', jqXHR);
-      console.log(textStatus);
+      console.log('textSTatus = ', textStatus);
       return chrome.runtime.sendMessage({
         uid: qs.uid,
         status: 'failure'

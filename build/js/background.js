@@ -44,6 +44,7 @@ $(function() {
   return chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
     return chrome.tabs.getAllInWindow(null, function(tabs) {
       return tabs.forEach(function(tab) {
+        console.log(request);
         if (tab.url.indexOf(request.uid) === -1) {
           return;
         }
@@ -61,7 +62,7 @@ $(function() {
             });
             return notify({
               title: 'Failure',
-              message: request.uid + ".png"
+              message: request.data.error.text + "\n\n" + request.data.body.url
             });
           }, 1000);
         }

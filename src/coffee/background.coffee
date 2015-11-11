@@ -34,6 +34,7 @@ $ ->
   chrome.runtime.onMessage.addListener (request, sender, sendResponse) ->
     chrome.tabs.getAllInWindow null, (tabs) ->
       tabs.forEach (tab) ->
+        console.log request
         return if tab.url.indexOf(request.uid) is -1
 
         if request.status is 'success'
@@ -46,5 +47,5 @@ $ ->
         if request.status is 'failure'
           setTimeout ->
             chrome.tabs.remove tab.id, -> console.log 'tab remove'
-            notify title: 'Failure', message: "#{request.uid}.png"
+            notify title: 'Failure', message: "#{request.data.error.text}\n\n#{request.data.body.url}"
           ,  1000

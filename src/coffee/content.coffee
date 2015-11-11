@@ -9,9 +9,11 @@ do ->
     $.ajax
       type: "POST"
       url: "https://aw2x.eiurur.xyz/api/downloadFromURL"
+      # url: "https://127.0.0.1:3003/api/downloadFromURL"
       data: params
       headers: "Access-Control-Allow-Origin": "*"
     .done (data) ->
+      console.log '/post2CorsServer data =', data
       if data.error
         chrome.runtime.sendMessage data: data, uid: qs.uid, status: 'failure', (response) -> console.log 'fail'
         return
@@ -21,7 +23,7 @@ do ->
 
     .fail (jqXHR, textStatus) ->
       console.log 'jqXHR = ', jqXHR
-      console.log textStatus
+      console.log 'textSTatus = ', textStatus
       chrome.runtime.sendMessage uid: qs.uid, status: 'failure', (response) -> console.log 'fail'
 
   ###
