@@ -60,10 +60,18 @@ $(function() {
             chrome.tabs.remove(tab.id, function() {
               return console.log('tab remove');
             });
-            return notify({
-              title: 'Failure',
-              message: request.data.error.text + "\n\n" + request.data.body.url
-            });
+            if (request.data != null) {
+              console.log(request.data);
+              return notify({
+                title: 'Failure',
+                message: request.data.error.text + "\n\n" + request.data.body.url
+              });
+            } else {
+              return notify({
+                title: 'Failure',
+                message: request.uid + "\n\nServer Down"
+              });
+            }
           }, 1000);
         }
       });

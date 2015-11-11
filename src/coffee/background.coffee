@@ -47,5 +47,9 @@ $ ->
         if request.status is 'failure'
           setTimeout ->
             chrome.tabs.remove tab.id, -> console.log 'tab remove'
-            notify title: 'Failure', message: "#{request.data.error.text}\n\n#{request.data.body.url}"
+            if request.data?
+              console.log request.data
+              notify title: 'Failure', message: "#{request.data.error.text}\n\n#{request.data.body.url}"
+            else
+              notify title: 'Failure', message: "#{request.uid}\n\nServer Down"
           ,  1000
