@@ -42,8 +42,7 @@ module.exports =
   bower_js:
     src: [
       'bower_components/jquery/dist/jquery.min.js'
-      'bower_components/es6-promise/promise.min.js'
-      'bower_components/file-saver-js/FileSaver.min.js'
+      'bower_components/file-saver-js/FileSaver.js'
       # 'bower_components/moment/moment.js'
       'bower_components/alertify.js/lib/alertify.js'
     ]
