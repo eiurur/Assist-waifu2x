@@ -1,17 +1,23 @@
 $ ->
 
-  ###
-  Context Menu
-  ###
+  get = (key) ->
+    return new Promise (resolve, reject) ->
+      chrome.storage.sync.get key, (item) -> return resolve item[key]
 
   clickHandler = (info, tab) ->
-    chrome.storage.sync.get "aw2x_noise", (item) ->
-      info.noise = item.aw2x_noise
-      chrome.storage.sync.get "aw2x_scale", (item) ->
-        info.scale = item.aw2x_scale
-        uid = Date.now()
-        chrome.tabs.create url: "../build/views/views/asyncpost.html?uid=#{uid}&srcUrl=#{info.srcUrl}&noise=#{info.noise}&scale=#{info.scale}", 'active': false, (tab) ->
-          console.log 'AAA'
+    Promise.all [
+      get "aw2x_noise"
+      get "aw2x_scale"
+      get "aw2x_is_allowed_download_original_size"
+    ]
+    .then (itemList) ->
+      console.log itemList
+      info.noise = itemList[0]
+      info.scale = itemList[1]
+      info.isAllowedDownloadOriginalSize = itemList[2]
+      info.uid = Date.now()
+      url = "../build/views/views/asyncpost.html?uid=#{info.uid}&srcUrl=#{info.srcUrl}&noise=#{info.noise}&scale=#{info.scale}&isAllowedDownloadOriginalSize=#{info.isAllowedDownloadOriginalSize}"
+      chrome.tabs.create url: url, 'active': false, (tab) -> console.log 'Go Convert and Download'
 
   chrome.contextMenus.create
     'title': 'image to waifu2x'
@@ -34,9 +40,9 @@ $ ->
   chrome.runtime.onMessage.addListener (request, sender, sendResponse) ->
     chrome.tabs.getAllInWindow null, (tabs) ->
       tabs.forEach (tab) ->
-        console.log request
         return if tab.url.indexOf(request.uid) is -1
 
+        console.log request
         if request.status is 'success'
           setTimeout ->
             chrome.tabs.remove tab.id, -> console.log 'tab remove'

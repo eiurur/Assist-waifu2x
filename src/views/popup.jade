@@ -4,7 +4,7 @@ html(lang="ja")
     meta(charset="UTF-8")
     link(rel="stylesheet", type="text/css", href="../../css/vendors/lib.min.css")
     meta(name="viewport", content="width=device-width,initial-scale=1.0")
-  body(style="min-width:360px;")
+  body(style="min-width:400px;")
 
     .navbar.navbar-default.navbar-static-top
       .container
@@ -39,6 +39,14 @@ html(lang="ja")
             label.radio-inline
               input(type='radio', name='scale', value="2", checked)
               | 2x
+
+      form.form-horizontal
+        .form-group
+          .col-xs-12
+            .checkbox
+              label
+                input.allowable-download-original-size(type="checkbox")
+                | 拡大に失敗したときは元の画像をダウンロードする
 
     script(src='../../js/vendors/lib.js')
     script(src='../../js/popup.js')

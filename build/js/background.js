@@ -1,22 +1,26 @@
 $(function() {
-
-  /*
-  Context Menu
-   */
-  var clickHandler, notify;
+  var clickHandler, get, notify;
+  get = function(key) {
+    return new Promise(function(resolve, reject) {
+      return chrome.storage.sync.get(key, function(item) {
+        return resolve(item[key]);
+      });
+    });
+  };
   clickHandler = function(info, tab) {
-    return chrome.storage.sync.get("aw2x_noise", function(item) {
-      info.noise = item.aw2x_noise;
-      return chrome.storage.sync.get("aw2x_scale", function(item) {
-        var uid;
-        info.scale = item.aw2x_scale;
-        uid = Date.now();
-        return chrome.tabs.create({
-          url: "../build/views/views/asyncpost.html?uid=" + uid + "&srcUrl=" + info.srcUrl + "&noise=" + info.noise + "&scale=" + info.scale,
-          'active': false
-        }, function(tab) {
-          return console.log('AAA');
-        });
+    return Promise.all([get("aw2x_noise"), get("aw2x_scale"), get("aw2x_is_allowed_download_original_size")]).then(function(itemList) {
+      var url;
+      console.log(itemList);
+      info.noise = itemList[0];
+      info.scale = itemList[1];
+      info.isAllowedDownloadOriginalSize = itemList[2];
+      info.uid = Date.now();
+      url = "../build/views/views/asyncpost.html?uid=" + info.uid + "&srcUrl=" + info.srcUrl + "&noise=" + info.noise + "&scale=" + info.scale + "&isAllowedDownloadOriginalSize=" + info.isAllowedDownloadOriginalSize;
+      return chrome.tabs.create({
+        url: url,
+        'active': false
+      }, function(tab) {
+        return console.log('Go Convert and Download');
       });
     });
   };
@@ -44,10 +48,10 @@ $(function() {
   return chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
     return chrome.tabs.getAllInWindow(null, function(tabs) {
       return tabs.forEach(function(tab) {
-        console.log(request);
         if (tab.url.indexOf(request.uid) === -1) {
           return;
         }
+        console.log(request);
         if (request.status === 'success') {
           setTimeout(function() {
             return chrome.tabs.remove(tab.id, function() {

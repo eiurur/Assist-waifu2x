@@ -41,11 +41,11 @@ eiurur.utils = {
   /*
   Download
    */
-  saveBlobImage: function(data) {
+  saveBlobImage: function(params) {
     var arrayBuffer, blob, filename;
-    arrayBuffer = this.convert.toArrayBuffer(data.body.data);
+    arrayBuffer = this.convert.toArrayBuffer(params.data);
     blob = new Blob([arrayBuffer], {
-      type: data.type
+      type: params.type
     });
     filename = (Date.now()) + ".png";
     return saveAs(blob, filename);

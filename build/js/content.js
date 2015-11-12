@@ -3,12 +3,21 @@
   /*
   Request
    */
-  var post2CorsServer, qs;
+  var downloadOriginImage, post2CorsServer, qs;
+  downloadOriginImage = function(params) {
+    var filename;
+    filename = params.url.match(".+/(.+?)([\?#;].*)?$")[1];
+    return chrome.downloads.download({
+      url: params.url,
+      filename: filename
+    }, function(downloadId) {
+      return console.log(downloadId);
+    });
+  };
   post2CorsServer = function(params) {
-    console.log(params);
     return $.ajax({
       type: "POST",
-      url: "https://aw2x.eiurur.xyz/api/downloadFromURL",
+      url: "https://aw2x.eiurur.xyz/api/download/waifu2x",
       data: params,
       headers: {
         "Access-Control-Allow-Origin": "*"
@@ -16,6 +25,12 @@
     }).done(function(data) {
       console.log('/post2CorsServer data =', data);
       if (data.error) {
+        if (qs.isAllowedDownloadOriginalSize) {
+          downloadOriginImage({
+            data: data,
+            url: params.url
+          });
+        }
         chrome.runtime.sendMessage({
           data: data,
           uid: qs.uid,
@@ -26,7 +41,7 @@
         return;
       }
       eiurur.utils.saveBlobImage({
-        body: data.body,
+        body: data.body.data,
         type: data.type
       });
       return chrome.runtime.sendMessage({
@@ -58,6 +73,10 @@
   if (qs.scale === 'undefined') {
     qs.scale = 2;
   }
+  if (qs.isAllowedDownloadOriginalSize === 'undefined' || qs.isAllowedDownloadOriginalSize === 'false') {
+    qs.isAllowedDownloadOriginalSize = false;
+  }
+  console.log(qs);
   return post2CorsServer({
     'url': qs.srcUrl,
     'noise': qs.noise - 0,

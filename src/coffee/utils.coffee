@@ -30,9 +30,9 @@ eiurur.utils =
   ###
   Download
   ###
-  saveBlobImage: (data) ->
-    arrayBuffer = @convert.toArrayBuffer data.body.data
-    blob        = new Blob([arrayBuffer], type: data.type)
+  saveBlobImage: (params) ->
+    arrayBuffer = @convert.toArrayBuffer params.data
+    blob        = new Blob([arrayBuffer], type: params.type)
     filename    = "#{Date.now()}.png"
     saveAs blob, filename
 
