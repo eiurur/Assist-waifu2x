@@ -2,10 +2,13 @@
   "manifest_version": 2,
   "name": "Assist-waifu2x",
   "description": "Assist-waifu2x",
-  "version": "0.3.7",
+  "version": "0.4.0",
   "permissions": [
     "tabs",
     "storage",
+    "downloads",
+    "http://*/*",
+    "https://*/*",
     "contextMenus",
     "notifications"
   ],
