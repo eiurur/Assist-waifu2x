@@ -41,7 +41,7 @@
         return;
       }
       eiurur.utils.saveBlobImage({
-        body: data.body.data,
+        data: data.body.data,
         type: data.type
       });
       return chrome.runtime.sendMessage({

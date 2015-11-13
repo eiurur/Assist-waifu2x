@@ -16,6 +16,7 @@ do ->
       type: "POST"
       url: "https://aw2x.eiurur.xyz/api/download/waifu2x"
       # url: "https://127.0.0.1:3003/api/download/waifu2x"
+      # url: "https://127.0.0.1:3003/api/downloadFromUrl"
       data: params
       headers: "Access-Control-Allow-Origin": "*"
     .done (data) ->
@@ -25,7 +26,7 @@ do ->
         chrome.runtime.sendMessage data: data, uid: qs.uid, status: 'failure', (response) -> console.log 'fail'
         return
 
-      eiurur.utils.saveBlobImage body: data.body.data, type: data.type
+      eiurur.utils.saveBlobImage data: data.body.data, type: data.type
       chrome.runtime.sendMessage data: data, uid: qs.uid, status: 'success', (response) -> console.log 'success'
 
     .fail (jqXHR, textStatus) ->
