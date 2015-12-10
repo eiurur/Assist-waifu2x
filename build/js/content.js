@@ -67,6 +67,9 @@
   Start!!
    */
   qs = eiurur.utils.getUrlVars();
+  if (qs.style === 'undefined') {
+    qs.style = 'art';
+  }
   if (qs.noise === 'undefined') {
     qs.noise = 2;
   }
@@ -79,6 +82,7 @@
   console.log(qs);
   return post2CorsServer({
     'url': qs.srcUrl,
+    'style': qs.style,
     'noise': qs.noise - 0,
     'scale': qs.scale - 0
   });

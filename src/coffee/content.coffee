@@ -16,7 +16,7 @@ do ->
       type: "POST"
       url: "https://aw2x.eiurur.xyz/api/download/waifu2x"
       # url: "https://127.0.0.1:3003/api/download/waifu2x"
-      # url: "https://127.0.0.1:3003/api/downloadFromUrl"
+      # url: "https://127.0.0.1:3003/api/downloadFromURL"
       data: params
       headers: "Access-Control-Allow-Origin": "*"
     .done (data) ->
@@ -42,6 +42,7 @@ do ->
   # インストールしたけど、popup.htmlで設定を変更していない場合
   # noise、scaleともに"undefined"が渡され、結果的にpost2CorsServerにはNaNが渡されることになる
   # それ用の対策
+  if qs.style is 'undefined' then qs.style = 'art'
   if qs.noise is 'undefined' then qs.noise = 2
   if qs.scale is 'undefined' then qs.scale = 2
   if qs.isAllowedDownloadOriginalSize is 'undefined' or qs.isAllowedDownloadOriginalSize is 'false' then qs.isAllowedDownloadOriginalSize = false
@@ -50,5 +51,6 @@ do ->
 
   post2CorsServer
     'url': qs.srcUrl
+    'style': qs.style
     'noise': qs.noise - 0
     'scale': qs.scale - 0

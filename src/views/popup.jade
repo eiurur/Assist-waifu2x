@@ -14,6 +14,18 @@ html(lang="ja")
     .container
       form.form-horizontal
         .form-group
+          label.control-label.col-xs-4 スタイル
+          .col-xs-8
+            label.radio-inline
+              input(type='radio', name='style', value="art", checked)
+              | イラスト
+            label.radio-inline
+              input(type='radio', name='style', value="photo")
+              | 写真
+
+    .container
+      form.form-horizontal
+        .form-group
           label.control-label.col-xs-4 ノイズ除去
           .col-xs-8
             label.radio-inline

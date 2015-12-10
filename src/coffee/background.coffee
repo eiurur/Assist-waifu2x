@@ -6,17 +6,19 @@ $ ->
 
   clickHandler = (info, tab) ->
     Promise.all [
+      get "aw2x_style"
       get "aw2x_noise"
       get "aw2x_scale"
       get "aw2x_is_allowed_download_original_size"
     ]
     .then (itemList) ->
       console.log itemList
-      info.noise = itemList[0]
-      info.scale = itemList[1]
-      info.isAllowedDownloadOriginalSize = itemList[2]
+      info.style = itemList[0]
+      info.noise = itemList[1]
+      info.scale = itemList[2]
+      info.isAllowedDownloadOriginalSize = itemList[3]
       info.uid = Date.now()
-      url = "../build/views/views/asyncpost.html?uid=#{info.uid}&srcUrl=#{info.srcUrl}&noise=#{info.noise}&scale=#{info.scale}&isAllowedDownloadOriginalSize=#{info.isAllowedDownloadOriginalSize}"
+      url = "../build/views/views/asyncpost.html?uid=#{info.uid}&srcUrl=#{info.srcUrl}&style=#{info.style}&noise=#{info.noise}&scale=#{info.scale}&isAllowedDownloadOriginalSize=#{info.isAllowedDownloadOriginalSize}"
       chrome.tabs.create url: url, 'active': false, (tab) -> console.log 'Go Convert and Download'
 
   chrome.contextMenus.create
