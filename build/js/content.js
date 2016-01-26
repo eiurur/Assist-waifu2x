@@ -23,7 +23,44 @@
         "Access-Control-Allow-Origin": "*"
       }
     }).done(function(data) {
+      var blob, html, src;
       console.log('/post2CorsServer data =', data);
+      if (qs.isAllowedOnlyShowExpandedImage) {
+        src = null;
+        if (data.error) {
+          src = params.url;
+          chrome.runtime.sendMessage({
+            type: 'show',
+            data: data,
+            uid: qs.uid,
+            status: 'failure'
+          }, function(response) {
+            return console.log('fail');
+          });
+          document.title = "x_x Fin " + qs.srcUrl;
+        } else {
+          blob = eiurur.utils.convertArrayBuffer2Blob({
+            data: data.body.data,
+            type: data.type
+          });
+          src = URL.createObjectURL(blob);
+          chrome.runtime.sendMessage({
+            type: 'show',
+            data: data,
+            uid: qs.uid,
+            status: 'success'
+          }, function(response) {
+            return console.log('success');
+          });
+          document.title = "^_^ Fin " + qs.srcUrl;
+        }
+        html = "<img class='in-screen' src='" + src + "'>";
+        $('#result').html(html);
+        $('img').on('click', function() {
+          return $(this).toggleClass('in-screen');
+        });
+        return;
+      }
       if (data.error) {
         if (qs.isAllowedDownloadOriginalSize) {
           downloadOriginImage({
@@ -78,6 +115,9 @@
   }
   if (qs.isAllowedDownloadOriginalSize === 'undefined' || qs.isAllowedDownloadOriginalSize === 'false') {
     qs.isAllowedDownloadOriginalSize = false;
+  }
+  if (qs.isAllowedOnlyShowExpandedImage === 'undefined' || qs.isAllowedOnlyShowExpandedImage === 'false') {
+    qs.isAllowedOnlyShowExpandedImage = false;
   }
   console.log(qs);
   return post2CorsServer({

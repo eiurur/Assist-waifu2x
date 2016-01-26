@@ -21,7 +21,28 @@ do ->
       headers: "Access-Control-Allow-Origin": "*"
     .done (data) ->
       console.log '/post2CorsServer data =', data
+
+      # asyncpost.htmlに拡大した画像を表示する
+      if qs.isAllowedOnlyShowExpandedImage
+        src = null
+        if data.error
+         src = params.url
+         chrome.runtime.sendMessage type: 'show', data: data, uid: qs.uid, status: 'failure', (response) -> console.log 'fail'
+         document.title = "x_x Fin #{qs.srcUrl}"
+        else
+          blob = eiurur.utils.convertArrayBuffer2Blob data: data.body.data, type: data.type
+          src = URL.createObjectURL blob
+          chrome.runtime.sendMessage type:'show', data: data, uid: qs.uid, status: 'success', (response) -> console.log 'success'
+          document.title = "^_^ Fin #{qs.srcUrl}"
+        html = "<img class='in-screen' src='#{src}'>"
+        $('#result').html(html)
+        $('img').on 'click', -> $(this).toggleClass 'in-screen'
+        return
+
+      # 通常のダウンロード処理
       if data.error
+
+        # 結果の是非に関係なく、ダウンロードする
         if qs.isAllowedDownloadOriginalSize then downloadOriginImage data: data, url: params.url
         chrome.runtime.sendMessage data: data, uid: qs.uid, status: 'failure', (response) -> console.log 'fail'
         return
@@ -46,6 +67,7 @@ do ->
   if qs.noise is 'undefined' then qs.noise = 2
   if qs.scale is 'undefined' then qs.scale = 2
   if qs.isAllowedDownloadOriginalSize is 'undefined' or qs.isAllowedDownloadOriginalSize is 'false' then qs.isAllowedDownloadOriginalSize = false
+  if qs.isAllowedOnlyShowExpandedImage is 'undefined' or qs.isAllowedOnlyShowExpandedImage is 'false' then qs.isAllowedOnlyShowExpandedImage = false
 
   console.log qs
 

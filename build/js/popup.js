@@ -15,6 +15,9 @@ $(function() {
   chrome.storage.sync.get("aw2x_is_allowed_download_original_size", function(item) {
     return $(".allowable-download-original-size").prop("checked", item.aw2x_is_allowed_download_original_size);
   });
+  chrome.storage.sync.get("aw2x_is_allowed_only_show_expanded_image", function(item) {
+    return $(".allowable-only-show-expanded-image").prop("checked", item.aw2x_is_allowed_only_show_expanded_image);
+  });
   $("input[type=radio][name=style]").on("change", function() {
     var item, style;
     style = $("input[type=radio][name=style]:checked").val();
@@ -45,7 +48,7 @@ $(function() {
       return console.log('changed scale!!');
     });
   });
-  return $(".allowable-download-original-size").on("change", function() {
+  $(".allowable-download-original-size").on("change", function() {
     var isAllowedDownloadOriginalSize, item;
     isAllowedDownloadOriginalSize = $(".allowable-download-original-size").prop('checked');
     item = {
@@ -53,6 +56,16 @@ $(function() {
     };
     return chrome.storage.sync.set(item, function() {
       return console.log('changed isAllowedDownloadOriginalSize!!');
+    });
+  });
+  return $(".allowable-only-show-expanded-image").on("change", function() {
+    var isAllowedOnlyShowExpandedImage, item;
+    isAllowedOnlyShowExpandedImage = $(".allowable-only-show-expanded-image").prop('checked');
+    item = {
+      'aw2x_is_allowed_only_show_expanded_image': isAllowedOnlyShowExpandedImage
+    };
+    return chrome.storage.sync.set(item, function() {
+      return console.log('changed isAllowedOnlyShowExpandedImage!!');
     });
   });
 });

@@ -15,6 +15,9 @@ $ ->
   chrome.storage.sync.get "aw2x_is_allowed_download_original_size", (item) ->
     $(".allowable-download-original-size").prop "checked", item.aw2x_is_allowed_download_original_size
 
+  chrome.storage.sync.get "aw2x_is_allowed_only_show_expanded_image", (item) ->
+    $(".allowable-only-show-expanded-image").prop "checked", item.aw2x_is_allowed_only_show_expanded_image
+
 
   $("input[type=radio][name=style]").on "change", ->
     style = $("input[type=radio][name=style]:checked").val()
@@ -35,3 +38,8 @@ $ ->
     isAllowedDownloadOriginalSize = $(".allowable-download-original-size").prop('checked')
     item  = 'aw2x_is_allowed_download_original_size': isAllowedDownloadOriginalSize
     chrome.storage.sync.set item, -> console.log 'changed isAllowedDownloadOriginalSize!!'
+
+  $(".allowable-only-show-expanded-image").on "change", ->
+    isAllowedOnlyShowExpandedImage = $(".allowable-only-show-expanded-image").prop('checked')
+    item  = 'aw2x_is_allowed_only_show_expanded_image': isAllowedOnlyShowExpandedImage
+    chrome.storage.sync.set item, -> console.log 'changed isAllowedOnlyShowExpandedImage!!'

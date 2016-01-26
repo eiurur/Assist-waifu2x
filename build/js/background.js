@@ -8,15 +8,16 @@ $(function() {
     });
   };
   clickHandler = function(info, tab) {
-    return Promise.all([get("aw2x_style"), get("aw2x_noise"), get("aw2x_scale"), get("aw2x_is_allowed_download_original_size")]).then(function(itemList) {
+    return Promise.all([get("aw2x_style"), get("aw2x_noise"), get("aw2x_scale"), get("aw2x_is_allowed_download_original_size"), get("aw2x_is_allowed_only_show_expanded_image")]).then(function(itemList) {
       var url;
       console.log(itemList);
       info.style = itemList[0];
       info.noise = itemList[1];
       info.scale = itemList[2];
       info.isAllowedDownloadOriginalSize = itemList[3];
+      info.isAllowedOnlyShowExpandedImage = itemList[4];
       info.uid = Date.now();
-      url = "../build/views/views/asyncpost.html?uid=" + info.uid + "&srcUrl=" + info.srcUrl + "&style=" + info.style + "&noise=" + info.noise + "&scale=" + info.scale + "&isAllowedDownloadOriginalSize=" + info.isAllowedDownloadOriginalSize;
+      url = "../build/views/views/asyncpost.html?uid=" + info.uid + "&srcUrl=" + info.srcUrl + "&style=" + info.style + "&noise=" + info.noise + "&scale=" + info.scale + "&isAllowedDownloadOriginalSize=" + info.isAllowedDownloadOriginalSize + "&isAllowedOnlyShowExpandedImage=" + info.isAllowedOnlyShowExpandedImage;
       return chrome.tabs.create({
         url: url,
         'active': false
@@ -31,9 +32,6 @@ $(function() {
     'id': 'image'
   });
   chrome.contextMenus.onClicked.addListener(clickHandler);
-
-  /*
-   */
   notify = function(params, callback) {
     var opts;
     opts = {
@@ -53,6 +51,29 @@ $(function() {
           return;
         }
         console.log(request);
+        if (request.type === 'show') {
+          if (request.status === 'success') {
+            notify({
+              title: 'Success',
+              message: request.uid + ".png"
+            });
+          }
+          if (request.status === 'failure') {
+            if (request.data != null) {
+              console.log(request.data);
+              notify({
+                title: 'Failure',
+                message: request.data.error.text + "\n\n" + request.data.body.url
+              });
+            } else {
+              notify({
+                title: 'Failure',
+                message: request.uid + "\n\nServer Down"
+              });
+            }
+          }
+          return;
+        }
         if (request.status === 'success') {
           setTimeout(function() {
             return chrome.tabs.remove(tab.id, function() {

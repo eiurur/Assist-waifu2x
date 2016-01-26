@@ -36,6 +36,12 @@ eiurur.utils =
     filename    = "#{Date.now()}.png"
     saveAs blob, filename
 
+  convertArrayBuffer2Blob: (params) ->
+    arrayBuffer = @convert.toArrayBuffer params.data
+    blob        = new Blob([arrayBuffer], type: params.type)
+    return blob
+
+
   getUrlVars: ->
     vars = {}
     param = location.search.substring(1).split('&')

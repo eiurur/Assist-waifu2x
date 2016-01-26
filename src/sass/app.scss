@@ -1,0 +1,8 @@
+img {
+  cursor: zoom-out;
+  &.in-screen {
+    max-height: 100%;
+    max-width: 100%;
+    cursor: zoom-in;
+  }
+}

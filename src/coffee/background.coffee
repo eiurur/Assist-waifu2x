@@ -5,11 +5,13 @@ $ ->
       chrome.storage.sync.get key, (item) -> return resolve item[key]
 
   clickHandler = (info, tab) ->
+
     Promise.all [
       get "aw2x_style"
       get "aw2x_noise"
       get "aw2x_scale"
       get "aw2x_is_allowed_download_original_size"
+      get "aw2x_is_allowed_only_show_expanded_image"
     ]
     .then (itemList) ->
       console.log itemList
@@ -17,8 +19,9 @@ $ ->
       info.noise = itemList[1]
       info.scale = itemList[2]
       info.isAllowedDownloadOriginalSize = itemList[3]
+      info.isAllowedOnlyShowExpandedImage = itemList[4]
       info.uid = Date.now()
-      url = "../build/views/views/asyncpost.html?uid=#{info.uid}&srcUrl=#{info.srcUrl}&style=#{info.style}&noise=#{info.noise}&scale=#{info.scale}&isAllowedDownloadOriginalSize=#{info.isAllowedDownloadOriginalSize}"
+      url = "../build/views/views/asyncpost.html?uid=#{info.uid}&srcUrl=#{info.srcUrl}&style=#{info.style}&noise=#{info.noise}&scale=#{info.scale}&isAllowedDownloadOriginalSize=#{info.isAllowedDownloadOriginalSize}&isAllowedOnlyShowExpandedImage=#{info.isAllowedOnlyShowExpandedImage}"
       chrome.tabs.create url: url, 'active': false, (tab) -> console.log 'Go Convert and Download'
 
   chrome.contextMenus.create
@@ -28,9 +31,7 @@ $ ->
 
   chrome.contextMenus.onClicked.addListener(clickHandler)
 
-  ###
 
-  ###
   notify = (params, callback) ->
     opts =
       title: params.title
@@ -45,6 +46,20 @@ $ ->
         return if tab.url.indexOf(request.uid) is -1
 
         console.log request
+
+        # 拡大した画像をダウンロードせずに表示だけするときは、タブを消さず、メッセージだけ通知する
+        if request.type is 'show'
+          if request.status is 'success'
+            notify title: 'Success', message: "#{request.uid}.png"
+          if request.status is 'failure'
+            if request.data?
+              console.log request.data
+              notify title: 'Failure', message: "#{request.data.error.text}\n\n#{request.data.body.url}"
+            else
+              notify title: 'Failure', message: "#{request.uid}\n\nServer Down"
+          return
+
+        # todo: downlolad typeであることを表明しないとね
         if request.status is 'success'
           setTimeout ->
             chrome.tabs.remove tab.id, -> console.log 'tab remove'

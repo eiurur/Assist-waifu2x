@@ -63,5 +63,13 @@ html(lang="ja")
                 input.allowable-download-original-size(type="checkbox")
                 | 拡大に失敗したときは元の画像をダウンロードする
 
+      form.form-horizontal
+        .form-group
+          .col-xs-12
+            .checkbox
+              label
+                input.allowable-only-show-expanded-image(type="checkbox")
+                | 拡大した画像はダウンロードせず、新しいタブに表示する
+
     script(src='../../js/vendors/lib.js')
     script(src='../../js/popup.js')

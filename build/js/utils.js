@@ -50,6 +50,14 @@ eiurur.utils = {
     filename = (Date.now()) + ".png";
     return saveAs(blob, filename);
   },
+  convertArrayBuffer2Blob: function(params) {
+    var arrayBuffer, blob;
+    arrayBuffer = this.convert.toArrayBuffer(params.data);
+    blob = new Blob([arrayBuffer], {
+      type: params.type
+    });
+    return blob;
+  },
   getUrlVars: function() {
     var i, key, keySearch, param, val, vars;
     vars = {};
