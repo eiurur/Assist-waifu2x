@@ -2,7 +2,7 @@
   "manifest_version": 2,
   "name": "Assist-waifu2x",
   "description": "Chrome Extension to help the use of waifu2x.",
-  "version": "0.6.0",
+  "version": "0.6.1",
   "permissions": [
     "tabs",
     "storage",
@@ -23,9 +23,6 @@
      "scripts": [ "build/js/vendors/lib.js", "build/js/background.js" ],
      "//": [ "build/js/vendors/lib.min.js", "build/js/background.min.js" ]
   },
-  "web_accessible_resources": [
-    "bower_components/jquery/dist/jquery.min.map"
-  ],
   "icons": {
     "16": "build/images/icon16.png",
     "48": "build/images/icon48.png",
