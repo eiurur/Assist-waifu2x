@@ -15,8 +15,7 @@ do ->
     $.ajax
       type: "POST"
       url: "https://aw2x.eiurur.xyz/api/download/waifu2x"
-      # url: "https://127.0.0.1:3003/api/download/waifu2x"
-      # url: "https://127.0.0.1:3003/api/downloadFromURL"
+      # url: "https://192.168.33.10:3003/api/download/waifu2x"
       data: params
       headers: "Access-Control-Allow-Origin": "*"
     .done (data) ->
