@@ -3,7 +3,7 @@ do ->
 
   CHROME_RUNTIME_ID = 'aopdgjkfalnfokhbgkemiajgfpefgjei'
   isProduction = chrome.runtime.id is CHROME_RUNTIME_ID
-  DEST_URL = if isProduction then 'https://aw2x.eiurur.xyz/api/download/waifu2x' else 'https://127.0.0.1:3000/api/download/waifu2x'
+  DEST_URL = if isProduction then 'https://aw2x.eiurur.xyz/api/download/waifu2x' else 'https://127.0.0.1:9966/api/download/waifu2x'
 
   ###
   Request
