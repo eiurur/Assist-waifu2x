@@ -29,25 +29,28 @@ html(lang="ja")
           label.control-label.col-xs-4 ノイズ除去
           .col-xs-8
             label.radio-inline
-              input(type='radio', name='noise', value="0")
+              input(type='radio', name='noise', value="-1")
               | なし
             label.radio-inline
-              input(type='radio', name='noise', value="1", checked)
-              | 弱
+              input(type='radio', name='noise', value="0")
+              | 低
             label.radio-inline
-              input(type='radio', name='noise', value="2")
-              | 強
+              input(type='radio', name='noise', value="1")
+              | 中
+            label.radio-inline
+              input(type='radio', name='noise', value="2", checked)
+              | 高
             label.radio-inline
               input(type='radio', name='noise', value="3")
-              | Super
+              | 最高
 
       form.form-horizontal
         .form-group
           label.control-label.col-xs-4 拡大
           .col-xs-8
             label.radio-inline
-              input(type='radio', name='scale', value="0")
-              | 1x
+              input(type='radio', name='scale', value="-1")
+              | なし
             label.radio-inline
               input(type='radio', name='scale', value="1")
               | 1.6x
