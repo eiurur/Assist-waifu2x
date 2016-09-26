@@ -1,62 +1,68 @@
 doctype html
 html(lang="ja")
-  head
+  headmain
     meta(charset="UTF-8")
     link(rel="stylesheet", type="text/css", href="../../css/vendors/lib.min.css")
+    link(rel="stylesheet", type="text/css", href="../../css/app.min.css")
     meta(name="viewport", content="width=device-width,initial-scale=1.0")
-  body(style="min-width:400px;")
-
-    .navbar.navbar-default.navbar-static-top
-      .container
+  body#main(style="min-width:640px;")
+    nav.navbar.navbar-default.navbar-static-top
+      .container-fluid
         .navbar-header
-          a.navbar-brand(href="#") Assist-waifu2x
+          a.navbar-brand(href='#') Assist-waifu2x
+          form.navbar-form.navbar-right
+            .form-group
+              select.form-control(name="lang")
+                option ja
+                option en
+                option ru
 
     .container
       form.form-horizontal
         .form-group
-          label.control-label.col-xs-4 スタイル
+          label.control-label.col-xs-4(data-i18n="style.style")
           .col-xs-8
             label.radio-inline
               input(type='radio', name='style', value="art", checked)
-              | イラスト
+              span(data-i18n="style.art")
             label.radio-inline
               input(type='radio', name='style', value="photo")
-              | 写真
+              span(data-i18n="style.photo")
 
     .container
       form.form-horizontal
         .form-group
-          label.control-label.col-xs-4 ノイズ除去
+          label.control-label.col-xs-4(data-i18n="noize.noize")
           .col-xs-8
             label.radio-inline
               input(type='radio', name='noise', value="-1")
-              | なし
+              span(data-i18n="noize.none")
             label.radio-inline
               input(type='radio', name='noise', value="0")
-              | 低
+              span(data-i18n="noize.low")
             label.radio-inline
               input(type='radio', name='noise', value="1")
-              | 中
+              span(data-i18n="noize.medium")
             label.radio-inline
               input(type='radio', name='noise', value="2", checked)
-              | 高
+              span(data-i18n="noize.high")
             label.radio-inline
               input(type='radio', name='noise', value="3")
-              | 最高
+              span(data-i18n="noize.highest")
 
       form.form-horizontal
         .form-group
-          label.control-label.col-xs-4 拡大
+          label.control-label.col-xs-4(data-i18n="upscaling.upscaling")
           .col-xs-8
             label.radio-inline
               input(type='radio', name='scale', value="-1")
-              | なし
+              span(data-i18n="upscaling.none")
             label.radio-inline
               input(type='radio', name='scale', value="1")
-              | 1.6x
+              span(data-i18n="upscaling.1_6x")
             label.radio-inline
               input(type='radio', name='scale', value="2", checked)
-              | 2x
+              span(data-i18n="upscaling.2x")
 
       form.form-horizontal
         .form-group
@@ -64,7 +70,7 @@ html(lang="ja")
             .checkbox
               label
                 input.allowable-download-original-size(type="checkbox")
-                | 拡大に失敗したときは元の画像をダウンロードする
+                span(data-i18n="options.download")
 
       form.form-horizontal
         .form-group
@@ -72,7 +78,7 @@ html(lang="ja")
             .checkbox
               label
                 input.allowable-only-show-expanded-image(type="checkbox")
-                | 拡大した画像はダウンロードせず、新しいタブに表示する
+                span(data-i18n="options.tab")
 
-    script(src='../../js/vendors/lib.js')
+    script(src='../../js/vendors/lib.min.js')
     script(src='../../js/popup.js')

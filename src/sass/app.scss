@@ -6,3 +6,21 @@ img {
     cursor: zoom-in;
   }
 }
+
+
+@media (max-width: 1280px)
+{
+    .navbar-right {
+        float: right!important;
+        margin-right: -15px;
+    }
+    .navbar-form  {
+        width: auto;
+        padding-top: 0;
+        padding-bottom: 0;
+        margin-right: 0;
+        margin-left: 0;
+        border: 0;
+        box-shadow: none;
+    }
+}

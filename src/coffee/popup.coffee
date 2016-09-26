@@ -3,6 +3,12 @@ $ ->
   ###
   For popup.html
   ###
+  changeLanguage = (lang = 'ja') ->
+    i18next.use(i18nextXHRBackend).init { lng: lang }, (err, t) ->
+      jqueryI18next.init i18next, $
+      $('#main').localize()
+      return
+
   chrome.storage.sync.get "aw2x_style", (item) ->
     $("input[type=radio][name=style][value=#{item.aw2x_style}]").attr "checked", true
 
@@ -17,6 +23,10 @@ $ ->
 
   chrome.storage.sync.get "aw2x_is_allowed_only_show_expanded_image", (item) ->
     $(".allowable-only-show-expanded-image").prop "checked", item.aw2x_is_allowed_only_show_expanded_image
+
+  chrome.storage.sync.get "aw2x_lang", (item) ->
+    $("[name=lang").val(item.aw2x_lang)
+    changeLanguage(item.aw2x_lang)
 
 
   $("input[type=radio][name=style]").on "change", ->
@@ -43,3 +53,9 @@ $ ->
     isAllowedOnlyShowExpandedImage = $(".allowable-only-show-expanded-image").prop('checked')
     item  = 'aw2x_is_allowed_only_show_expanded_image': isAllowedOnlyShowExpandedImage
     chrome.storage.sync.set item, -> console.log 'changed isAllowedOnlyShowExpandedImage!!'
+
+  $("[name=lang").on "change", ->
+    lang = $("[name=lang").val()
+    item  = 'aw2x_lang': lang
+    changeLanguage(item.aw2x_lang)
+    chrome.storage.sync.set item, -> console.log 'changed lang!!'
