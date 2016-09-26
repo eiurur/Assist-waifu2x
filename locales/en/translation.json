@@ -1,0 +1,25 @@
+{
+    "style" : {
+        "style": "Style",
+        "art" : "Artwork",
+        "photo" : "Photo"
+    },
+    "noize" : {
+        "noize": "Noize Reduction",
+        "none" : "None",
+        "low" : "Low",
+        "medium" : "Medium",
+        "high" : "High",
+        "highest" : "Highest"
+    },
+    "upscaling" : {
+        "upscaling": "Upscaling",
+        "none" : "None",
+        "1_6x" : "1.6x",
+        "2x" : "2x"
+    },
+    "options" : {
+        "download" : "Download the original image in the case of failure to upscaling.",
+        "tab" : "Display the upscaled image on the new tab without downloading the upscaled image."
+    }
+}
