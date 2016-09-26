@@ -18,7 +18,10 @@
     "bootstrap": "~3.3.5",
     "font-awesome": "~4.3.0",
     "file-saver-js": "*",
-    "alertify.js": "~0.3.11"
+    "alertify.js": "~0.3.11",
+    "i18next": "~3.4.3",
+    "jquery-i18next": "~1.1.0",
+    "i18next-xhr-backend": "~1.2.0"
   },
   "devDependencies": {}
 }
