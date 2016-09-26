@@ -42,8 +42,10 @@ module.exports =
   bower_js:
     src: [
       'bower_components/jquery/dist/jquery.min.js'
+      'bower_components/i18next/i18next.js'
+      'bower_components/jquery-i18next/jquery-i18next.js'
+      'bower_components/i18next-xhr-backend/i18nextXHRBackend.js'
       'bower_components/file-saver-js/FileSaver.js'
-      # 'bower_components/moment/moment.js'
       'bower_components/alertify.js/lib/alertify.js'
     ]
     dest: dest + "/js/vendors/"

@@ -13,6 +13,6 @@ gulp.task 'zip', [
   newVersion = new ManifestVersionManager(argv.version, manifest.version).update().getVersion()
   distFileName = "#{manifest.name} v#{newVersion}.zip"
   console.log distFileName
-  gulp.src ['build/**/*', 'manifest.json'], {base: "."}
+  gulp.src ['build/**/*', 'locales/**', 'manifest.json'], {base: "."}
       .pipe $.zip distFileName
       .pipe gulp.dest 'dist'

@@ -19,3 +19,4 @@ gulp.task "watch", ->
   # images_copy
   watch config.images_copy, ->
     gulp.start ["images_copy"]
+
