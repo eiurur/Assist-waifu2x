@@ -3,7 +3,7 @@ $ ->
   ###
   For popup.html
   ###
-  changeLanguage = (lang = 'ja') ->
+  changeLanguage = (lang = 'en') ->
     i18next.use(i18nextXHRBackend).init { lng: lang }, (err, t) ->
       jqueryI18next.init i18next, $
       $('#main').localize()
@@ -25,6 +25,7 @@ $ ->
     $(".allowable-only-show-expanded-image").prop "checked", item.aw2x_is_allowed_only_show_expanded_image
 
   chrome.storage.sync.get "aw2x_lang", (item) ->
+    item.aw2x_lang = item.aw2x_lang or 'en'
     $("[name=lang").val(item.aw2x_lang)
     changeLanguage(item.aw2x_lang)
 
