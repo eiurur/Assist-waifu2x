@@ -13,10 +13,8 @@ It is an extension to be used in conjunction with <a href="https://github.com/ei
 
 <a href="https://chrome.google.com/webstore/detail/aopdgjkfalnfokhbgkemiajgfpefgjei/publish-accepted?hl=ja" target="_blank">Assist-waifu2x - Chrome WebStore</a>
 
-## Status
+## Contribution
 
-WIP
+Thanks!!
 
-## TODO
-
-- [x] Setting option(noise, scale) on popup.html.
+- <a href="https://github.com/MasterPetrik" target="_blank">MasterPetrik</a>
