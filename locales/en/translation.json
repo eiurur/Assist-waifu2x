@@ -19,7 +19,7 @@
         "2x" : "2x"
     },
     "options" : {
-        "download" : "Download the original image in the case of failure to upscaling.",
-        "tab" : "Display the upscaled image on the new tab without downloading the upscaled image."
+        "download" : "Download the original image in the case of an upscaling error.",
+        "tab" : "Display the image in a new tab without downloading the upscaled image."
     }
 }
