@@ -23,6 +23,21 @@ img {
   }
 }
 
+// widthが600台のときにcontainerのpaddingが広いので上書き。
+// もしwaifu2xのオプションに合わせるなら除外してwidthを764pxにすればいい。
+@media (min-width: 640px) {
+  .container {
+    max-width: 600px;
+  }
+}
+
+// 上書き
+// widthを764pxにするなら除外する。
+.nav-link,
+.navbar {
+  padding: 0.5rem 2rem;
+}
+
 .options {
   margin: 1rem 0;
 }

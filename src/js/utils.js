@@ -1,7 +1,6 @@
 import { saveAs } from 'file-saver';
 
-const eiurur = {};
-eiurur.utils = {
+const utils = {
   /*
   Convert
   */
@@ -36,17 +35,31 @@ eiurur.utils = {
   /*
   Download
   */
-  saveBlobImage(params) {
-    const arrayBuffer = this.convert.toArrayBuffer(params.data);
-    const blob = new Blob([arrayBuffer], { type: params.type });
-    const filename = `${Date.now()}.png`;
+  saveBlobImage({ blob, type, filename }) {
+    // const arrayBuffer = this.convert.toArrayBuffer(params.data);
+    blob = new Blob([blob], { type });
+    filename = filename || `${Date.now()}.png`;
     return saveAs(blob, filename);
   },
 
-  convertArrayBuffer2Blob(params) {
-    const arrayBuffer = this.convert.toArrayBuffer(params.data);
-    const blob = new Blob([arrayBuffer], { type: params.type });
+  convertArrayBuffer2Blob({ data, type }) {
+    const arrayBuffer = this.convert.toArrayBuffer(data);
+    const blob = new Blob([arrayBuffer], { type: type });
     return blob;
+  },
+
+  /**
+   * CAUTION: chromeAPIを使用
+   */
+  downloadOriginImage: ({ url }) => {
+    const filename = url.match('.+/(.+?)([?#;].*)?$')[1];
+    return chrome.downloads.download(
+      {
+        url,
+        filename,
+      },
+      downloadId => console.log(downloadId),
+    );
   },
 
   getUrlVars() {
@@ -68,3 +81,5 @@ eiurur.utils = {
     return vars;
   },
 };
+
+export { utils };

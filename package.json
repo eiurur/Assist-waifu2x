@@ -5,7 +5,7 @@
   "author": "eiurur",
   "license": "MIT",
   "dependencies": {
-    "alertify.js": "^1.0.12",
+    "axios": "^0.18.0",
     "bootstrap": "^4.1.1",
     "file-saver": "^1.3.8",
     "font-awesome": "^4.7.0",

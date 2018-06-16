@@ -6,7 +6,7 @@ html(lang='ja')
     link(rel='stylesheet', type='text/css', href='../css/vendors/lib.min.css')
     link(rel='stylesheet', type='text/css', href='../css/app.min.css')
     meta(name='viewport', content='width=device-width,initial-scale=1.0')
-  body#main(style='min-width:640px;')
+  body#main(style='min-width:768px;')
     nav.navbar.navbar-light.bg-light.navbar-static-top.navbar-expand-md
       .container
         a.navbar-brand(href='#') Assist-waifu2x
@@ -25,6 +25,9 @@ html(lang='ja')
               label.form-check-inline.form-check
                 input.form-check-input(type='radio', name='style', value='art', checked='')
                 span(data-i18n='style.art')
+              label.form-check-inline.form-check
+                input.form-check-input(type='radio', name='style', value='photo', disabled)
+                span(data-i18n='style.photo')
       .container
         form
           .form-group.row
@@ -34,11 +37,17 @@ html(lang='ja')
                 input.form-check-input(type='radio', name='noise', value='0')
                 span(data-i18n='noize.none')
               label.form-check-inline.form-check
+                input.form-check-input(type='radio', name='noise', value='0', disabled)
+                span(data-i18n='noize.low')
+              label.form-check-inline.form-check
                 input.form-check-input(type='radio', name='noise', value='1')
                 span(data-i18n='noize.medium')
               label.form-check-inline.form-check
                 input.form-check-input(type='radio', name='noise', value='2', checked='')
                 span(data-i18n='noize.high')
+              label.form-check-inline.form-check
+                input.form-check-input(type='radio', name='noise', value='3', disabled)
+                span(data-i18n='noize.highest')
         form
           .form-group.row
             label.col-form-label.col-4(data-i18n='upscaling.upscaling')
@@ -46,6 +55,9 @@ html(lang='ja')
               label.form-check-inline.form-check
                 input.form-check-input(type='radio', name='scale', value='1')
                 span(data-i18n='upscaling.none')
+              label.form-check-inline.form-check
+                input.form-check-input(type='radio', name='scale', value='1', disabled)
+                span(data-i18n='upscaling.1_6x')
               label.form-check-inline.form-check
                 input.form-check-input(type='radio', name='scale', value='2', checked='')
                 span(data-i18n='upscaling.2x')

@@ -1,4 +1,5 @@
 import $ from 'jquery';
+import { CHROME_EXTENSION_RESOURCES } from './configs';
 
 $(function() {
   const get = key =>
@@ -21,7 +22,7 @@ $(function() {
       info.isAllowedDownloadOriginalSize = itemList[3];
       info.isAllowedOnlyShowExpandedImage = itemList[4];
       info.uid = Date.now();
-      const url = `../build/views/views/asyncpost.html?uid=${info.uid}&srcUrl=${
+      const url = `../build/views/asyncpost.html?uid=${info.uid}&srcUrl=${
         info.srcUrl
       }&style=${info.style}&noise=${info.noise}&scale=${
         info.scale
@@ -46,7 +47,7 @@ $(function() {
       title: params.title,
       message: params.message,
       type: 'basic',
-      iconUrl: '../build/images/icon128.png',
+      iconUrl: CHROME_EXTENSION_RESOURCES.images.ICON_128,
     };
     return chrome.notifications.create(opts, () => console.log('notify'));
   };
@@ -77,14 +78,14 @@ $(function() {
             } else {
               notify({
                 title: 'Failure',
-                message: `${request.uid}\n\nServer Down`,
+                message: `${request.uid}\n\${request.message}`,
               });
             }
           }
           return;
         }
 
-        // todo: downlolad typeであることを表明しないとね
+        // todo: downlolad typeであることを表明しないといけない
         if (request.status === 'success') {
           setTimeout(
             () => chrome.tabs.remove(tab.id, () => console.log('tab remove')),
@@ -108,7 +109,7 @@ $(function() {
             } else {
               return notify({
                 title: 'Failure',
-                message: `${request.uid}\n\nServer Down`,
+                message: `${request.uid}\n\n${request.message}`,
               });
             }
           }, 1000);
