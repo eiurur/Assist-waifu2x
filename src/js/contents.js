@@ -37,6 +37,7 @@ const parseQueryString = () => {
 (function() {
   const qs = parseQueryString();
   const requester = new Booru({
+    uid: qs.uid,
     url: qs.srcUrl,
     style: qs.style,
     noise: qs.noise - 0,

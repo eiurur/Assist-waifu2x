@@ -58,8 +58,7 @@ $(function() {
         if (tab.url.indexOf(request.uid) === -1) {
           return;
         }
-
-        console.log(request);
+        console.log('onMessage request => ', request);
 
         // 拡大した画像をダウンロードせずに表示だけするときは、タブを消さず、メッセージだけ通知する
         if (request.type === 'show') {
