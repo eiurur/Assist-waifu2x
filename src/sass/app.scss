@@ -7,20 +7,36 @@ img {
   }
 }
 
+@media (max-width: 1280px) {
+  .navbar-right {
+    float: right !important;
+    margin-right: -15px;
+  }
+  .navbar-form {
+    width: auto;
+    padding-top: 0;
+    padding-bottom: 0;
+    margin-right: 0;
+    margin-left: 0;
+    border: 0;
+    box-shadow: none;
+  }
+}
 
-@media (max-width: 1280px)
-{
-    .navbar-right {
-        float: right!important;
-        margin-right: -15px;
-    }
-    .navbar-form  {
-        width: auto;
-        padding-top: 0;
-        padding-bottom: 0;
-        margin-right: 0;
-        margin-left: 0;
-        border: 0;
-        box-shadow: none;
-    }
+.options {
+  margin: 1rem 0;
+}
+
+.checkboxes {
+  padding: 0.25rem 0 0;
+}
+
+.col-form-label {
+  font-weight: bold;
+}
+
+.checkbox,
+.radio {
+  padding: 0.4375rem 0;
+  margin-bottom: 0;
 }

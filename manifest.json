@@ -16,18 +16,11 @@
       "38": "build/images/icon38.png"
     },
     "default_title": "Assist-waifu2x",
-    "default_popup": "build/views/views/popup.html"
+    "default_popup": "build/views/popup.html"
   },
   "background": {
     "persistent": false,
-    "//": [
-      "build/js/vendors/lib.js",
-      "build/js/background.js"
-    ],
-    "scripts": [
-      "build/js/vendors/lib.min.js",
-      "build/js/background.min.js"
-    ]
+    "scripts": ["build/js/background.bundle.js"]
   },
   "icons": {
     "16": "build/images/icon16.png",
