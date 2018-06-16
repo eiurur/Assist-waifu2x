@@ -37,7 +37,7 @@ $(function() {
   chrome.contextMenus.create({
     title: 'image to waifu2x',
     contexts: ['image'],
-    id: 'image',
+    id: 'assist_waifu2x_image',
   });
 
   chrome.contextMenus.onClicked.addListener(clickHandler);
