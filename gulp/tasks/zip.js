@@ -14,7 +14,7 @@ gulp.task('zip', ['update_manifest_version'], function() {
   let distFileName = `${manifest.name} v${newVersion}.zip`;
   console.log(distFileName);
   return gulp
-    .src(['build/**/*', 'manifest.json'], { base: '.' })
+    .src(['build/**/*', 'locales/**', 'manifest.json'], { base: '.' })
     .pipe($.zip(distFileName))
     .pipe(gulp.dest('dist'));
 });
