@@ -18,12 +18,12 @@ module.exports = {
       {
         test: /\.js$/,
         use: [
-          {
-            loader: 'babel-loader',
-            options: {
-              presets: [['es2015', { modules: false }], 'stage-3'],
-            },
-          },
+          // {
+          //   loader: 'babel-loader',
+          //   options: {
+          //     presets: [['es2015', { modules: false }], 'stage-3'],
+          //   },
+          // },
         ],
         exclude: /node_modules/,
       },
