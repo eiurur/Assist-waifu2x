@@ -2,7 +2,7 @@
   "manifest_version": 2,
   "name": "Assist-waifu2x",
   "description": "Chrome Extension to help the use of waifu2x.",
-  "version": "0.9.3",
+  "version": "0.9.4",
   "permissions": ["tabs", "storage", "downloads", "contextMenus", "notifications"],
   "browser_action": {
     "default_icon": {
