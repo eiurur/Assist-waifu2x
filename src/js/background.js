@@ -26,7 +26,7 @@ $(function() {
         // 拡大した画像をダウンロードせずに表示だけするときは、タブを消さず、メッセージだけ通知する
         if (request.type === 'show') {
           if (request.status === 'success') {
-            notify({ title: 'Success', message: `${request.uid}.png` });
+            notify({ title: 'Success', message: `${request.uid}` });
           }
           if (request.status === 'failure') {
             if (request.data != null) {

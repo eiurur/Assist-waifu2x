@@ -4,7 +4,6 @@ import { utils } from '../utils';
 
 /**
  * Booru2x用のクライアントクラス
- * TODO: png, jpgを選びたい
  * TODO: waifu2xと共通部分を抽象化
  * TODO: axiosに置換
  */
@@ -14,7 +13,7 @@ export default class Booru {
     url,
     noise,
     scale,
-    ext,
+    mime,
     isAllowedOnlyShowExpandedImage,
     isAllowedDownloadOriginalSize,
   }) {
@@ -23,10 +22,11 @@ export default class Booru {
       url: url,
       noise: noise - 0,
       scale: scale - 0,
-      ext: 'png',
+      mime: mime,
     };
     this.isAllowedOnlyShowExpandedImage = isAllowedOnlyShowExpandedImage;
     this.isAllowedDownloadOriginalSize = isAllowedDownloadOriginalSize;
+    this.retryCount = 3;
     return this;
   }
 
@@ -50,19 +50,22 @@ export default class Booru {
             },
             tab => console.log('Go Convert and show'),
           );
-          document.title = `^_^ Success to resize ${this.srcUrl}`;
+          document.title = `^_^ Success to resize ${this.options.url}`;
           return;
         }
 
         // 通常のダウンロード処理
-        // const blob = utils.convert.base64toBlob(response.base64);
         console.log(response.data);
         console.log(typeof response.data);
         const blob = utils.convertArrayBuffer2Blob({
           data: response.data.data,
-          type: 'image/png',
+          type: `image/${this.options.mime}`,
         });
-        utils.saveBlobImage({ blob, type: 'image/png' });
+        utils.saveBlobImage({
+          blob,
+          type: `image/${this.options.mime}`,
+          filename: response.filename,
+        });
         return chrome.runtime.sendMessage(
           {
             data: response.data,
@@ -73,18 +76,25 @@ export default class Booru {
           response => console.log('success'),
         );
       })
-      .fail((jqXHR, textStatus, error) => {
+      .fail(async (jqXHR, textStatus, error) => {
         console.log('jqXHR = ', jqXHR);
         console.log('textSTatus = ', textStatus);
 
-        if (this.isAllowedDownloadOriginalSize) {
-          utils.downloadOriginImage({ url: params.url });
-        }
+        if (this.retryCount > 0) {
+          this.retryCount--;
+          const wait = (5 + Math.abs(3 - this.retryCount)) * 1000;
+          await utils.sleep(wait);
+          return this.post();
+        } else {
+          if (this.isAllowedDownloadOriginalSize) {
+            utils.downloadOriginImage({ url: params.url });
+          }
 
-        return chrome.runtime.sendMessage(
-          { uid: this.uid, status: 'failure', message: jqXHR.responseText },
-          response => console.log('fail'),
-        );
+          return chrome.runtime.sendMessage(
+            { uid: this.uid, status: 'failure', message: jqXHR.responseText },
+            response => console.log('fail'),
+          );
+        }
       });
   }
 }

@@ -38,6 +38,13 @@ $(function() {
     ),
   );
 
+  chrome.storage.sync.get('aw2x_mime', item =>
+    $(`input[type=radio][name=mime][value=${item.aw2x_mime}]`).attr(
+      'checked',
+      true,
+    ),
+  );
+
   chrome.storage.sync.get('aw2x_is_allowed_download_original_size', item =>
     $('.allowable-download-original-size').prop(
       'checked',
@@ -74,6 +81,12 @@ $(function() {
     const scale = $('input[type=radio][name=scale]:checked').val();
     const item = { aw2x_scale: scale };
     return chrome.storage.sync.set(item, () => console.log('changed scale!!'));
+  });
+
+  $('input[type=radio][name=mime]').on('change', function() {
+    const mime = $('input[type=radio][name=mime]:checked').val();
+    const item = { aw2x_mime: mime };
+    return chrome.storage.sync.set(item, () => console.log('changed mime!!'));
   });
 
   $('.allowable-download-original-size').on('change', function() {

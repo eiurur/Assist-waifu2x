@@ -26,6 +26,7 @@ export default class ContextMenuExtensionListener {
       ChromeSyncStorageManager.get('aw2x_style'),
       ChromeSyncStorageManager.get('aw2x_noise'),
       ChromeSyncStorageManager.get('aw2x_scale'),
+      ChromeSyncStorageManager.get('aw2x_mime'),
       ChromeSyncStorageManager.get('aw2x_is_allowed_download_original_size'),
       ChromeSyncStorageManager.get('aw2x_is_allowed_only_show_expanded_image'),
     ]).then(function(itemList) {
@@ -33,13 +34,14 @@ export default class ContextMenuExtensionListener {
       info.style = itemList[0];
       info.noise = itemList[1];
       info.scale = itemList[2];
-      info.isAllowedDownloadOriginalSize = itemList[3];
-      info.isAllowedOnlyShowExpandedImage = itemList[4];
+      info.mime = itemList[3];
+      info.isAllowedDownloadOriginalSize = itemList[4];
+      info.isAllowedOnlyShowExpandedImage = itemList[5];
       info.uid = Date.now();
       const url = `../build/views/asyncpost.html?uid=${info.uid}&srcUrl=${
         info.srcUrl
-      }&style=${info.style}&noise=${info.noise}&scale=${
-        info.scale
+      }&style=${info.style}&noise=${info.noise}&scale=${info.scale}&mime=${
+        info.mime
       }&isAllowedDownloadOriginalSize=${
         info.isAllowedDownloadOriginalSize
       }&isAllowedOnlyShowExpandedImage=${info.isAllowedOnlyShowExpandedImage}`;

@@ -1,6 +1,7 @@
 import { saveAs } from 'file-saver';
 
 const utils = {
+  sleep: (ms = 1000) => new Promise(resolve => setTimeout(resolve, ms)),
   /*
   Convert
   */

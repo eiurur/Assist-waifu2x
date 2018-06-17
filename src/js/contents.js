@@ -8,14 +8,17 @@ const parseQueryString = () => {
   // インストールしたけど、popup.htmlで設定を変更していない場合
   // noise、scaleともに"undefined"が渡され、結果的にpost()にはNaNが渡されることになる
   // それ用の対策
-  if (qs.style === 'undefined') {
+  if (qs.style === 'undefined' || qs.style === 'null') {
     qs.style = 'art';
   }
-  if (qs.noise === 'undefined') {
+  if (qs.noise === 'undefined' || qs.noise === 'null') {
     qs.noise = 2;
   }
-  if (qs.scale === 'undefined') {
+  if (qs.scale === 'undefined' || qs.scale === 'null') {
     qs.scale = 2;
+  }
+  if (qs.mime === 'undefined' || qs.mime === 'null') {
+    qs.mime = 'jpeg';
   }
   if (
     qs.isAllowedDownloadOriginalSize === 'undefined' ||
@@ -42,7 +45,7 @@ const parseQueryString = () => {
     style: qs.style,
     noise: qs.noise - 0,
     scale: qs.scale - 0,
-    ext: 'png',
+    mime: qs.mime,
     isAllowedDownloadOriginalSize: qs.isAllowedDownloadOriginalSize,
     isAllowedOnlyShowExpandedImage: qs.isAllowedOnlyShowExpandedImage,
   });
