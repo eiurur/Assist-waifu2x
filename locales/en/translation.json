@@ -1,25 +1,32 @@
 {
-    "style" : {
-        "style": "Style",
-        "art" : "Artwork",
-        "photo" : "Photo"
-    },
-    "noize" : {
-        "noize": "Noize Reduction",
-        "none" : "None",
-        "low" : "Low",
-        "medium" : "Medium",
-        "high" : "High",
-        "highest" : "Highest"
-    },
-    "upscaling" : {
-        "upscaling": "Upscaling",
-        "none" : "None",
-        "1_6x" : "1.6x",
-        "2x" : "2x"
-    },
-    "options" : {
-        "download" : "Download the original image in the case of an upscaling error.",
-        "tab" : "Display the image in a new tab without downloading the upscaled image."
-    }
+  "style": {
+    "style": "Style",
+    "art": "Artwork",
+    "photo": "Photo"
+  },
+  "noize": {
+    "noize": "Noize Reduction",
+    "none": "None",
+    "low": "Low",
+    "medium": "Medium",
+    "high": "High",
+    "highest": "Highest"
+  },
+  "upscaling": {
+    "upscaling": "Upscaling",
+    "none": "None",
+    "1_6x": "1.6x",
+    "2x": "2x"
+  },
+  "mime": {
+    "mime": "MIME",
+    "jpeg": "jpeg",
+    "png": "png"
+  },
+  "options": {
+    "download":
+      "Download the original image in the case of an upscaling error.",
+    "tab":
+      "Display the image in a new tab without downloading the upscaled image."
+  }
 }

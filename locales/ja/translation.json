@@ -1,25 +1,30 @@
 {
-    "style" : {
-        "style": "スタイル",
-        "art" : "イラスト",
-        "photo" : "写真"
-    },
-    "noize" : {
-        "noize": "ノイズ除去",
-        "none" : "なし",
-        "low" : "低",
-        "medium" : "中",
-        "high" : "高",
-        "highest" : "最高"
-    },
-    "upscaling" : {
-        "upscaling": "拡大",
-        "none" : "なし",
-        "1_6x" : "1.6x",
-        "2x" : "2x"
-    },
-    "options" : {
-        "download" : "拡大に失敗したときは元の画像をダウンロードする",
-        "tab" : "拡大した画像はダウンロードせず、新しいタブに表示する"
-    }
+  "style": {
+    "style": "スタイル",
+    "art": "イラスト",
+    "photo": "写真"
+  },
+  "noize": {
+    "noize": "ノイズ除去",
+    "none": "なし",
+    "low": "低",
+    "medium": "中",
+    "high": "高",
+    "highest": "最高"
+  },
+  "upscaling": {
+    "upscaling": "拡大",
+    "none": "なし",
+    "1_6x": "1.6x",
+    "2x": "2x"
+  },
+  "mime": {
+    "mime": "MIME",
+    "jpeg": "jpeg",
+    "png": "png"
+  },
+  "options": {
+    "download": "拡大に失敗したときは元の画像をダウンロードする",
+    "tab": "拡大した画像はダウンロードせず、新しいタブに表示する"
+  }
 }
