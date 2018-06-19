@@ -22,13 +22,13 @@ const parseQueryString = () => {
   }
   if (
     qs.isAllowedDownloadOriginalSize === 'undefined' ||
-    qs.isAllowedDownloadOriginalSize === 'false'
+    qs.isAllowedDownloadOriginalSize === 'false' || qs.isAllowedDownloadOriginalSize == 'null'
   ) {
     qs.isAllowedDownloadOriginalSize = false;
   }
   if (
     qs.isAllowedOnlyShowExpandedImage === 'undefined' ||
-    qs.isAllowedOnlyShowExpandedImage === 'false'
+    qs.isAllowedOnlyShowExpandedImage === 'false' || qs.isAllowedOnlyShowExpandedImage == 'null'
   ) {
     qs.isAllowedOnlyShowExpandedImage = false;
   }
