@@ -4,6 +4,7 @@ import Booru from './targets/booru';
 const isUndefinedString = val => {
   return val === 'undefined' || val === 'null' || val === 'false';
 };
+
 const parseQueryString = () => {
   var qs = utils.getUrlVars();
 
@@ -20,7 +21,7 @@ const parseQueryString = () => {
     qs.scale = 2;
   }
   if (isUndefinedString(qs.mime)) {
-    qs.mime = 'jpeg';
+    qs.mime = 'png';
   }
   if (isUndefinedString(qs.isAllowedDownloadOriginalSize)) {
     qs.isAllowedDownloadOriginalSize = false;
