@@ -17,3 +17,9 @@ It is an extension to be used in conjunction with <a href="https://github.com/ei
 This extension is powered by <a href="https://waifu2x.booru.pics/" target="_blank">waifu2x</a> and is made by <a href="https://github.com/MasterPetrik">MasterPetrik</a>
 
 ## Development
+
+    $ git clone https://github.com/eiurur/Assist-waifu2x
+    $ cd Assist-waifu2x
+    $ npm i
+    $ npm run build
+    $ npm run start
