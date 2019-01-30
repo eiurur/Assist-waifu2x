@@ -19,7 +19,7 @@
     "2x": "2x"
   },
   "mime": {
-    "mime": "MIME",
+    "fileType": "ファイル形式",
     "jpeg": "jpeg",
     "png": "png"
   },

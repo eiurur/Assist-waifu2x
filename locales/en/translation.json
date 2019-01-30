@@ -19,14 +19,12 @@
     "2x": "2x"
   },
   "mime": {
-    "mime": "MIME",
+    "fileType": "File type",
     "jpeg": "jpeg",
     "png": "png"
   },
   "options": {
-    "download":
-      "Download the original image in the case of an upscaling error.",
-    "tab":
-      "Display the image in a new tab without downloading the upscaled image."
+    "download": "Download the original image in the case of an upscaling error.",
+    "tab": "Display the image in a new tab without downloading the upscaled image."
   }
 }

@@ -19,7 +19,7 @@
     "2x": "2x"
   },
   "mime": {
-    "mime": "MIME",
+    "fileType": "тип файла",
     "jpeg": "jpeg",
     "png": "png"
   },
