@@ -33,7 +33,7 @@ export default class Booru {
   post() {
     return $.ajax({
       type: 'POST',
-      url: ENDPOINT.booru2x,
+      url: ENDPOINT.booru2x + '/file',
       data: this.options,
       headers: {
         'Access-Control-Allow-Origin': '*',
