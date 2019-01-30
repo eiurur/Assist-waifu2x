@@ -1,35 +1,31 @@
 import { utils } from './utils';
 import Booru from './targets/booru';
 
-// TODO: あとでどかす
+const isUndefinedString = val => {
+  return val === 'undefined' || val === 'null' || val === 'false';
+};
 const parseQueryString = () => {
   var qs = utils.getUrlVars();
 
   // インストールしたけど、popup.htmlで設定を変更していない場合
   // noise、scaleともに"undefined"が渡され、結果的にpost()にはNaNが渡されることになる
   // それ用の対策
-  if (qs.style === 'undefined' || qs.style === 'null') {
+  if (isUndefinedString(qs.style)) {
     qs.style = 'art';
   }
-  if (qs.noise === 'undefined' || qs.noise === 'null') {
+  if (isUndefinedString(qs.noise)) {
     qs.noise = 2;
   }
-  if (qs.scale === 'undefined' || qs.scale === 'null') {
+  if (isUndefinedString(qs.scale)) {
     qs.scale = 2;
   }
-  if (qs.mime === 'undefined' || qs.mime === 'null') {
+  if (isUndefinedString(qs.mime)) {
     qs.mime = 'jpeg';
   }
-  if (
-    qs.isAllowedDownloadOriginalSize === 'undefined' ||
-    qs.isAllowedDownloadOriginalSize === 'false' || qs.isAllowedDownloadOriginalSize == 'null'
-  ) {
+  if (isUndefinedString(qs.isAllowedDownloadOriginalSize)) {
     qs.isAllowedDownloadOriginalSize = false;
   }
-  if (
-    qs.isAllowedOnlyShowExpandedImage === 'undefined' ||
-    qs.isAllowedOnlyShowExpandedImage === 'false' || qs.isAllowedOnlyShowExpandedImage == 'null'
-  ) {
+  if (isUndefinedString(qs.isAllowedOnlyShowExpandedImage)) {
     qs.isAllowedOnlyShowExpandedImage = false;
   }
   console.log(qs);
