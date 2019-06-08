@@ -23,20 +23,12 @@ module.exports = {
   },
 
   vendor_js: {
-    src: [
-      'node_modules/jquery/dist/jquery.js',
-      'node_modules/alertifyjs/build/alertify.js',
-    ],
+    src: ['node_modules/jquery/dist/jquery.js'],
     dest: dest + '/js/vendors/',
   },
 
   vendor_css: {
-    src: [
-      'node_modules/bootstrap/dist/css/bootstrap.min.css',
-      'node_modules/alertifyjs/build/css/alertify.css',
-      'node_modules/alertifyjs/build/css/themes/default.css',
-      'node_modules/alertifyjs/build/css/themes/bootstrap.css',
-    ],
+    src: ['node_modules/bootstrap/dist/css/bootstrap.min.css'],
     dest: dest + '/css/vendors/',
   },
 
