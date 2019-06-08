@@ -21,7 +21,7 @@
     "babel-preset-stage-3": "^6.22.0",
     "concurrently": "^3.4.0",
     "eslint": "^4.0.0",
-    "eslint-config-airbnb": "^16.1.0",
+    "eslint-config-airbnb": "^17.1.0",
     "eslint-plugin-react": "^7.0.1",
     "gulp": "^3.8.8",
     "gulp-cached": "^1.1.0",
