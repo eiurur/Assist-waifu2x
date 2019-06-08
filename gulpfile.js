@@ -1,6 +1,3 @@
-// const requireDir = require('require-dir');
-// requireDir('./gulp/tasks', {recursive: true});
-
 // minimum tasks
 require('./gulp/tasks/clean');
 require('./gulp/tasks/vendor_css');
