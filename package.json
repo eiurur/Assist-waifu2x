@@ -31,7 +31,7 @@
     "gulp-copy": "4.0.1",
     "gulp-csslint": "^1.0.1",
     "gulp-cssmin": "^0.2.0",
-    "gulp-json-editor": "^2.5.2",
+    "gulp-json-editor": "^2.5.3",
     "gulp-load-plugins": "^1.6.0",
     "gulp-notify": "^3.2.0",
     "gulp-open": "^3.0.1",
